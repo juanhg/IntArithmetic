@@ -52,7 +52,7 @@ public class Main
 			//System.out.println("Integer.MAX_VALUE = "+Integer.MAX_VALUE);
 			//System.out.println("Long.MAX_VALUE = "+Long.MAX_VALUE);
 			
-			// data.txt should include two lines. Each should be a big hexadecimal natural number.
+			// data.txt should include two lines. Each should be a big decimal natural number.
 			in = new FileInputStream("data.txt");
 			br = new BufferedReader(new InputStreamReader(in));
 			
@@ -85,7 +85,8 @@ public class Main
 			*/
 			
 			System.out.println();
-			BigInt resultMultiply = number1.multiplySchool(number2);
+			//BigInt resultMultiply = number1.multiplySchool(number2);
+			BigInt resultMultiply = number1.multiplyKaratsuba(number2);
 			System.out.println("   " + strLine1);
 			System.out.println(" * " + strLine2);
 			System.out.println("_____________________________________________________________________");

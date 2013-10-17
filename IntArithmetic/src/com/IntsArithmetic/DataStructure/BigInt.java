@@ -397,7 +397,7 @@ public class BigInt
 		boolean completed = false;
 		
 		while(!completed){
-			if(size > (int)Math.pow(2.0, (double)m)){
+			if(size < (int)Math.pow(2.0, (double)m)){
 				completed = true;
 			}
 			else
@@ -451,6 +451,23 @@ public class BigInt
 		return result;
 	}
 	
+	
+	/**
+	 * Extracts a subvector from a vector (index included)
+	 * @param init Init index
+	 * @param end Final index
+	 * @return Subvector
+	 */
+	public Vector<Integer> subVector(int init, int end){
+		Vector<Integer> aux = new Vector<Integer>();
+		
+		for(int i = init; i <= end; i++){
+			aux.add(this.data.elementAt(i));
+		}
+		
+		return aux;
+	}
+	
 	/**
 	 * Split the number and obtain his left part
 	 * @return BigInt 
@@ -465,7 +482,7 @@ public class BigInt
 			end = end - 1;
 		}
 		
-		result.data = (Vector<Integer>) this.data.subList(0, end);
+		result.data = this.subVector(0, end);
 		result.isNegative = this.isNegative;
 		
 		return result;
@@ -482,7 +499,7 @@ public class BigInt
 		int size = this.data.size();
 		int begin = size/2;
 
-		result.data = (Vector<Integer>) this.data.subList(begin, size-1);
+		result.data = this.subVector(begin, size-1);
 		result.isNegative = this.isNegative;
 		
 		return result;
