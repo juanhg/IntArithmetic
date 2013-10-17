@@ -386,9 +386,153 @@ public class BigInt
 		return result;
 	}
 	
+	/**
+	 * Calculate the exponent "m" that makes the expresion "2^m"
+	 * bigger than this.data.size()
+	 * @return Integer value of m
+	 */
+	int nextPow2(){
+		int m = 0;
+		int size = this.data.size();
+		boolean completed = false;
+		
+		while(!completed){
+			if(size > (int)Math.pow(2.0, (double)m)){
+				completed = true;
+			}
+			else
+			{
+				m++;
+			}
+		}
+		return m;
+	}
+	
+	/**
+	 * Add left zeros this.data until this.data.size() is 2^m
+	 * @param m 
+	 */
+	@SuppressWarnings("unchecked")
+	void fillDigits(int m){
+		BigInt reverse = this.clone();
+		
+		Collections.reverse(reverse.data);
+		
+		while(reverse.data.size() != Math.pow(2.0, (double)m)){
+			reverse.data.add(0);
+		}
+		
+		Collections.reverse(reverse.data);
+		this.data = (Vector<Integer>) reverse.data.clone();
+	}
+	
 	public BigInt multiplyKaratsuba(BigInt data2)
 	{
-		return null;
+		BigInt a = this.clone();
+		BigInt b = data2.clone();
+		BigInt result;
+		
+		int size1 = a.data.size();
+		int size2 = b.data.size();
+		int m = 0;
+		
+		if(size1 > size2)
+		{
+			m = a.nextPow2();
+		}
+		else{
+			m = b.nextPow2();
+		}
+		
+		a.fillDigits(m);
+		b.fillDigits(m);
+		
+		result = this.multiplyKaratsubaKernel(a, b, m);
+		return result;
+	}
+	
+	/**
+	 * Split the number and obtain his left part
+	 * @return BigInt 
+	 */
+	public BigInt leftSplit(){
+		BigInt result = new BigInt();
+		int size = this.data.size();
+		int end = size/2;
+		
+		if(end > 0)
+		{	
+			end = end - 1;
+		}
+		
+		result.data = (Vector<Integer>) this.data.subList(0, end);
+		result.isNegative = this.isNegative;
+		
+		return result;
+	}
+	
+	
+	
+	/**
+	 * Split the number and obtain his left part
+	 * @return BigInt 
+	 */
+	public BigInt rightSplit(){
+		BigInt result = new BigInt();
+		int size = this.data.size();
+		int begin = size/2;
+
+		result.data = (Vector<Integer>) this.data.subList(begin, size-1);
+		result.isNegative = this.isNegative;
+		
+		return result;
+	}
+	
+	/**
+	 * Added times zeros in this.data 
+	 * @param times Zeros to be added
+	 * @return BigInt with "times" mores zeros in data than the original
+	 */
+	public BigInt multiplyShift(int times){
+		BigInt result = this.clone();
+		
+		for(int i = 0; i < times; i++){
+			result.data.add(0);
+		}
+		
+		return result;
+	}
+	
+	public BigInt multiplyKaratsubaKernel(BigInt a, BigInt b, int m)
+	{
+		if(m == 0){
+			return a.multiplySchool(b);
+		}
+		else
+		{	
+			BigInt a0 = a.leftSplit();
+			BigInt a1 = a.rightSplit();
+			BigInt b0 = b.leftSplit();
+			BigInt b1 = b.rightSplit();
+			
+			BigInt a1_sub_a0 = a1.substract(a0);
+			BigInt b0_sub_b1 = b0.substract(b1);
+			
+			BigInt t1 = this.multiplyKaratsubaKernel(a1, b1, m-1);
+			BigInt t2 = this.multiplyKaratsubaKernel(a1_sub_a0, b0_sub_b1, m-1);
+			BigInt t3 = this.multiplyKaratsubaKernel(a0, b0, m-1);
+			
+			BigInt t1_t2_t3 = t1.add(t2);
+			t1_t2_t3 = t1_t2_t3.add(t3);
+			
+			BigInt result1 = t1.multiplyShift((int)Math.pow(2.0,(double)m));
+			BigInt result2 = t1_t2_t3.multiplyShift((int)Math.pow(2.0,(double)(m-1)));
+			
+			BigInt result = result1.add(result2);
+			result = result.add(t3);
+			
+			return result;
+		}
 	}
 	
 	public BigInt multiplyModular(BigInt data2)
@@ -396,5 +540,12 @@ public class BigInt
 		return null;
 	}
 	
-	//ESTOY MUY CABREADO
+	@Override
+    @SuppressWarnings(value = "unchecked")
+    protected BigInt clone(){
+		BigInt cloned = new BigInt();
+		cloned.data = (Vector<Integer>) this.data.clone();
+		cloned.isNegative = this.isNegative;
+		return cloned;
+	}
 }
