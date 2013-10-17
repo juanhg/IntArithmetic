@@ -1,3 +1,4 @@
+package com.IntArithmetic;
 /**
  * @file Main.java
  * @brief Main class
@@ -25,6 +26,8 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+
+import com.IntsArithmetic.DataStructure.BigInt;
 
 /**
  * @brief Main.
