@@ -141,13 +141,13 @@ public class BigInt
 		if(this.isNegative && !data2.isNegative)
 		{
 			this.isNegative = false;
-			result = data2.substract(this);
+			result = data2.subtract(this);
 			this.isNegative = true;
 		}
 		else if(!this.isNegative && data2.isNegative)
 		{
 			data2.isNegative = false;
-			result = this.substract(data2);
+			result = this.subtract(data2);
 			data2.isNegative = true;
 		}
 		else if(this.isNegative && data2.isNegative)
@@ -237,8 +237,35 @@ public class BigInt
 		{
 			return true;
 		}
-		else
+		else if(this.isNegative && data2.isNegative)
 		{
+			if(this.data.size() < data2.data.size())
+			{
+				return true;
+			}
+			else if(this.data.size() > data2.data.size())
+			{
+				return false;
+			}
+			else
+			{
+				// Equal size, check digit by digit
+				for(int i=0; i<this.data.size(); ++i)
+				{
+					if(this.data.elementAt(i) < data2.data.elementAt(i))
+					{
+						return true;
+					}
+					else if(this.data.elementAt(i) > data2.data.elementAt(i))
+					{
+						return false;
+					}
+				}
+				return false;
+			}
+		}
+		else if(!this.isNegative && !data2.isNegative)
+		{	
 			if(this.data.size() < data2.data.size())
 			{
 				return false;
@@ -249,6 +276,7 @@ public class BigInt
 			}
 			else
 			{
+				// Equal size, check digit by digit
 				for(int i=0; i<this.data.size(); ++i)
 				{
 					if(this.data.elementAt(i) < data2.data.elementAt(i))
@@ -263,23 +291,62 @@ public class BigInt
 				return false;
 			}
 		}
+		else
+		{
+			return false;
+		}
 	}
 	
-	public BigInt substract(BigInt data2)
+	public BigInt subtract(BigInt data2)
 	{
 		BigInt result;
 		
-		if(data2.isGreaterThan(this))
+		if(this.isNegative && data2.isNegative)
 		{
-			result = data2.substractKernel(this);
-			result.isNegative = true;
+			this.isNegative = false;
+			data2.isNegative = false;
+			if(this.isGreaterThan(data2))
+			{
+				result = this.subtractKernel(data2);
+				result.isNegative = true;
+			}
+			else
+			{
+				result = data2.subtractKernel(this);
+				result.isNegative = false;
+			}
+			this.isNegative = true;
+			data2.isNegative = true;
 		}
-		else
+		else if(!this.isNegative && data2.isNegative)
 		{
-			result = this.substractKernel(data2);
+			data2.isNegative = false;
+			result = this.add(data2);
+			result.isNegative = false;
+			data2.isNegative = true;
+		}
+		else if(this.isNegative && !data2.isNegative)
+		{
+			this.isNegative = false;
+			result = this.add(data2);
+			result.isNegative = true;
+			this.isNegative = true;
+		}
+		else // if(!this.isNegative && !data2.isNegative) (both positive)
+		{
+			if(data2.isGreaterThan(this))
+			{
+				result = data2.subtractKernel(this);
+				result.isNegative = true;
+			}
+			else
+			{
+				result = this.subtractKernel(data2);
+				result.isNegative = false;
+			}
 		}
 		
-		// Eliminate zeros on the left
+		// Eliminate zeroes on the left
 		for(int i=0; i<result.data.size()-1; ++i)
 		{
 			if(result.data.elementAt(i) == 0 && i==0)
@@ -292,7 +359,7 @@ public class BigInt
 		return result;
 	}
 	
-	private BigInt substractKernel(BigInt data2)
+	private BigInt subtractKernel(BigInt data2)
 	{
 		// School algorithm
 		boolean done = false;
@@ -579,8 +646,8 @@ public class BigInt
 			BigInt b0 = b.leftSplit();
 			BigInt b1 = b.rightSplit();
 			
-			BigInt a1_sub_a0 = a1.substract(a0);
-			BigInt b0_sub_b1 = b0.substract(b1);
+			BigInt a1_sub_a0 = a1.subtract(a0);
+			BigInt b0_sub_b1 = b0.subtract(b1);
 			
 			BigInt t1 = this.multiplyKaratsubaKernel(a1, b1, m-1);
 			BigInt t2 = this.multiplyKaratsubaKernel(a1_sub_a0, b0_sub_b1, m-1);
