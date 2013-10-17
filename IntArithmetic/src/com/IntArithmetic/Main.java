@@ -64,8 +64,8 @@ public class Main
 			/*
 			System.out.println("The number " + strLine1 + " is represented as " + number1.toString());
 			System.out.println("The number " + strLine2 + " is represented as " + number2.toString());
-			
-			
+			*/
+			/*
 			System.out.println();
 			BigInt resultAdd = number1.add(number2);
 			System.out.println("   " + strLine1);
@@ -73,8 +73,8 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultAdd.toString());
 			System.out.println();
-			
-			
+			*/
+			/*
 			System.out.println();
 			BigInt resultSubstract = number1.substract(number2);
 			System.out.println("   " + strLine1);
@@ -92,6 +92,7 @@ public class Main
 			System.out.println(resultMultiply1.toString());
 			System.out.println();
 			
+			
 			System.out.println();
 			BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
 			System.out.println("   " + strLine1);
@@ -99,6 +100,7 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply2.toString());
 			System.out.println();
+			
 		} 
 		catch (Exception e)
 		{

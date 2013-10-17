@@ -136,6 +136,39 @@ public class BigInt
 	
 	public BigInt add(BigInt data2)
 	{
+		BigInt result;
+		
+		if(this.isNegative && !data2.isNegative)
+		{
+			this.isNegative = false;
+			result = data2.substract(this);
+			this.isNegative = true;
+		}
+		else if(!this.isNegative && data2.isNegative)
+		{
+			data2.isNegative = false;
+			result = this.substract(data2);
+			data2.isNegative = true;
+		}
+		else if(this.isNegative && data2.isNegative)
+		{
+			this.isNegative = false;
+			data2.isNegative = false;
+			result = this.addKernel(data2);
+			this.isNegative = true;
+			data2.isNegative = true;
+			result.isNegative = true;
+		}
+		else // !this.isNegative && !data2.isNegative
+		{
+			result = this.addKernel(data2);
+		}
+		
+		return result;
+	}
+	
+	private BigInt addKernel(BigInt data2)
+	{
 		// School algorithm
 		boolean done = false;
 		int index1 = this.data.size()-1;
