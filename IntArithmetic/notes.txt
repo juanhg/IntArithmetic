@@ -1,0 +1,18 @@
+unsigned int 2^32 max. 0<= n <= (2^32) - 1
+
+entero grande, sea una lista en la que cada elemento sea un entero de tamaño 2^16 (Así al multiplicar dos, el resultado no desbordará al entero de 2^32)
+También se puede jugar con entero y entero largo... dependiendo del lenguaje y compilador.
+
+
+Objetivo de la práctica es comparar ordenes de tiempo (Generar gráficas de comparación). Necesitamos poder introducir enteros manualmente.
+
+Hay que implementar sumas (Mult. Escolar) y restas (Mult. Karatsuba)
+Memoria (3,4 pág.) destacar dific. facilidades, la gráfica, explicación del algoritmo si se hacen mejoras...
+
+Implementar mult naturales, no enteros. En Karatsuba hay que restar, tener en cuenta que pueden aparecer signos.
+
+El cambio de base no se cuenta en la medición de tiempo a comparar.
+
+
+
+http://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html

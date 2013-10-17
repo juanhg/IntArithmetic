@@ -324,6 +324,20 @@ public class BigInt
 	
 	public BigInt multiplySchool(BigInt data2)
 	{
+		BigInt result = this.multiplySchoolKernel(data2);
+		if( (this.isNegative && data2.isNegative) || (!this.isNegative && !data2.isNegative) )
+		{
+			result.isNegative = false;
+		}
+		else if( (!this.isNegative && data2.isNegative) || (this.isNegative && !data2.isNegative) )
+		{
+			result.isNegative = true;
+		}
+		return result;
+	}
+	
+	private BigInt multiplySchoolKernel(BigInt data2)
+	{
 		BigInt result = new BigInt();
 		long temp;
 		int carry = 0;

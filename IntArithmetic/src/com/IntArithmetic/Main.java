@@ -85,12 +85,19 @@ public class Main
 			*/
 			
 			System.out.println();
-			//BigInt resultMultiply = number1.multiplySchool(number2);
-			BigInt resultMultiply = number1.multiplyKaratsuba(number2);
+			BigInt resultMultiply1 = number1.multiplySchool(number2);
 			System.out.println("   " + strLine1);
 			System.out.println(" * " + strLine2);
 			System.out.println("_____________________________________________________________________");
-			System.out.println(resultMultiply.toString());
+			System.out.println(resultMultiply1.toString());
+			System.out.println();
+			
+			System.out.println();
+			BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
+			System.out.println("   " + strLine1);
+			System.out.println(" * " + strLine2);
+			System.out.println("_____________________________________________________________________");
+			System.out.println(resultMultiply2.toString());
 			System.out.println();
 		} 
 		catch (Exception e)
