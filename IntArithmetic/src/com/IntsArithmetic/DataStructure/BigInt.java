@@ -144,6 +144,11 @@ public class BigInt
 		return s;
 	}
 	
+	/**
+	 * Sum two numbers with the School algorithm
+	 * @param data2 number added to "this"
+	 * @return BigInt with the sum
+	 */
 	public BigInt add(BigInt data2)
 	{
 		BigInt result;
@@ -306,10 +311,16 @@ public class BigInt
 			return false;
 		}
 	}
-	
+	/**
+	 * @post IF NUMBERS HAVE NO-USEFULL DIGIT (ON THE LEFT), IT WILL BE ERASED
+	 */
+
 	public BigInt subtract(BigInt data2)
 	{
 		BigInt result;
+		
+		this.cleanZeros();
+		data2.cleanZeros();
 		
 		if(this.isNegative && data2.isNegative)
 		{
@@ -432,8 +443,12 @@ public class BigInt
 		return result;
 	}
 	
+
 	public BigInt multiplySchool(BigInt data2)
 	{
+		//this.cleanZeros();
+		//data2.cleanZeros();
+		
 		BigInt result = this.multiplySchoolKernel(data2);
 		if( (this.isNegative && data2.isNegative) || (!this.isNegative && !data2.isNegative) )
 		{
@@ -539,16 +554,17 @@ public class BigInt
 	 */
 	@SuppressWarnings("unchecked")
 	void fillDigits(int m){
-		BigInt reverse = this.clone();
-		
-		Collections.reverse(reverse.data);
-		
-		while(reverse.data.size() != Math.pow(2.0, (double)m)){
-			reverse.data.add(0);
+		if (this.data.size() != Math.pow(2.0, (double) m)) {
+			BigInt reverse = this.clone();
+			Collections.reverse(reverse.data);
+
+			do{
+				reverse.data.add(0);
+			}while (reverse.data.size() != Math.pow(2.0, (double) m));
+
+			Collections.reverse(reverse.data);
+			this.data = (Vector<Integer>) reverse.data.clone();
 		}
-		
-		Collections.reverse(reverse.data);
-		this.data = (Vector<Integer>) reverse.data.clone();
 	}
 	
 	public BigInt multiplyKaratsuba(BigInt data2)
@@ -718,21 +734,23 @@ public class BigInt
 			a1_sub_a0.fillDigits(m-1);
 			b0_sub_b1.fillDigits(m-1);
 			
+			//SERIA POSIBLE OPTIMIZAR ESTAS CUATRO LLAMADAS, HACIENDO QUE EL SUBTRACT NO MODIFICARA LAS VARIABLES DE ENTRADA
+			a1.fillDigits(m-1);
+			b1.fillDigits(m-1);
+			b0.fillDigits(m-1);
+			a0.fillDigits(m-1);
+			
 			BigInt t1 = this.multiplyKaratsubaKernel(a1, b1, m-1);
 			BigInt t2 = this.multiplyKaratsubaKernel(a1_sub_a0, b0_sub_b1, m-1);
 			BigInt t3 = this.multiplyKaratsubaKernel(a0, b0, m-1);
 			
-			t1.cleanZeros();
 			BigInt t1_t2_t3 = t1.add(t2);
-			t1_t2_t3.cleanZeros();
 			t1_t2_t3 = t1_t2_t3.add(t3);
 			
 			BigInt result1 = t1.multiplyShift((int)Math.pow(2.0,(double)m));
 			BigInt result2 = t1_t2_t3.multiplyShift((int)Math.pow(2.0,(double)(m-1)));
 			
-			result1.cleanZeros();
 			BigInt result = result1.add(result2);
-			result.cleanZeros();
 			result = result.add(t3);
 			
 			return result;
@@ -753,4 +771,14 @@ public class BigInt
 		cloned.isNegative = this.isNegative;
 		return cloned;
 	}
+
+	public boolean isNegative() {
+		return isNegative;
+	}
+
+	public void setIsNegative(boolean isNegative) {
+		this.isNegative = isNegative;
+	}
+	
+	
 }

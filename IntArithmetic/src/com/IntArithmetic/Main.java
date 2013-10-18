@@ -61,6 +61,9 @@ public class Main
 			
 			BigInt number1 = new BigInt(strLine1);
 			BigInt number2 = new BigInt(strLine2);
+			
+			//number1.setIsNegative(true);
+			number2.setIsNegative(true);
 			/*
 			System.out.println("The number " + strLine1 + " is represented as " + number1.toString());
 			System.out.println("The number " + strLine2 + " is represented as " + number2.toString());
@@ -86,8 +89,8 @@ public class Main
 			
 			System.out.println();
 			BigInt resultMultiply1 = number1.multiplySchool(number2);
-			System.out.println("   " + strLine1);
-			System.out.println(" * " + strLine2);
+			System.out.println("   " + number1.toString());
+			System.out.println(" * " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply1.toString());
 			System.out.println();
@@ -95,8 +98,8 @@ public class Main
 			
 			System.out.println();
 			BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
-			System.out.println("   " + strLine1);
-			System.out.println(" * " + strLine2);
+			System.out.println("   " + number1.toString());
+			System.out.println(" * " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply2.toString());
 			System.out.println();
