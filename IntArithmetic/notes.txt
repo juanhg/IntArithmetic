@@ -16,3 +16,16 @@ El cambio de base no se cuenta en la medición de tiempo a comparar.
 
 
 http://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html
+
+---------------------------------------------------------------------
+Cosas buenas:
+* Karatsuba tira para positivos perfectamente.
+
+Fallos detectados:
+* No se leen bien entradas negativas. Se leen con signo menos, pero isNegative a false.
+* Hay que unificar este criterio. Cuando tiene isNegative a true, y signo menos en el digito lo trata como positivo. Cuando tiene signo negativo e isNegative a false lo trata como negativo...
+* Me estoy haciendo un lio debido a esto último y me cuesta horrores llegar a un Karatsuba funcional.
+* La resta falla si se intenta restar (0 - x) y el BigInt que contiene 0 tiene size() > 1. HE TENIDO QUE PARCHAERLO EN KARATSUBA CON UNA FUNCION. PERO ME GUSTARIA QUITARLA.
+* Necesito que el signo del 0 no importe en las restas, sumas y multiplicaciones.
+* Intenta solucionarme estas cosas lo antes posible por favor.
+

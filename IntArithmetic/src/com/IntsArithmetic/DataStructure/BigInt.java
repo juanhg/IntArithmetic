@@ -45,6 +45,7 @@ public class BigInt
 	{	
 		data = new Vector<Integer>(0);
 		isNegative = false;
+
 		
 		// The first chars are the most significative.
 		// Read DIGITS_PER_PART decimal digits, and add them to an Integer.
@@ -96,9 +97,12 @@ public class BigInt
 		// TODO Copy constructor, implement if needed
 	}
 	
+	@Override
 	public String toString()
 	{
 		String s = "";
+		boolean print0 = false;
+		
 		if(isNegative)
 		{
 			s += "-";
@@ -122,14 +126,20 @@ public class BigInt
 				{
 					digits = (int)(Math.log10(data.elementAt(i))+1);
 				}
-				for(int j=digits; j<DIGITS_PER_PART; ++j)
+				for(int j=digits; j<DIGITS_PER_PART && print0; ++j)
 				{
 					s += "0";
 				}
 			}
 			
-			s += data.elementAt(i).toString();
+			if(this.data.elementAt(i) == 0 && !print0){
+				
+			}
+			else{
+				print0 = true;
+				s += data.elementAt(i).toString();
 			//s += " ";
+			}
 		}
 		return s;
 	}
@@ -458,6 +468,7 @@ public class BigInt
 				if(result.data.size() <= resultIndex + resultOffset)
 				{
 					// If there's no result value in this position, store as much as possible.
+					// POSIBLE FAILURE WITH NEGATIVES NUMBERS. OR 0 NUMBERS.
 					result.data.add(new Integer((int) (temp%MAX_INTEGER_PER_PART)));
 					//System.out.println("Adding new "+(int) (temp%MAX_INTEGER_PER_PART)+" to the vector ("+result.data.lastElement()+")");
 				}
@@ -511,7 +522,7 @@ public class BigInt
 		boolean completed = false;
 		
 		while(!completed){
-			if(size < (int)Math.pow(2.0, (double)m)){
+			if(size <= (int)Math.pow(2.0, (double)m)){
 				completed = true;
 			}
 			else
@@ -597,7 +608,14 @@ public class BigInt
 		}
 		
 		result.data = this.subVector(0, end);
-		result.isNegative = this.isNegative;
+		result.isNegative = false;
+		
+		//For avoid the case -0;
+		for(int i = 0; i < result.data.size(); i++){
+			if(result.data.elementAt(i) != 0){
+				result.isNegative = this.isNegative;
+			}
+		}
 		
 		return result;
 	}
@@ -634,6 +652,50 @@ public class BigInt
 		return result;
 	}
 	
+	/**
+	 * Clean left-zeros
+	 */
+	private void cleanZeros(){
+		while (this.data.elementAt(0) == 0 && this.data.size() > 1) {
+			this.data.remove(0);
+		}
+	}
+	
+	/**
+	 * Unify the number of digits adding left-zeros
+	 * @param data2
+	 */
+	
+	private void unifyDigits(BigInt data2){
+		int size1 = this.data.size();
+		int size2 = data2.data.size();
+		int d = 0;
+		
+		if(size1 > size2){
+			Collections.reverse(data2.data);
+			while(data2.data.size() < size1){
+				data2.data.add(0);
+			}
+			Collections.reverse(data2.data);
+		}
+		else{
+			Collections.reverse(this.data);
+			while(this.data.size() < size2){
+				this.data.add(0);
+			}
+			Collections.reverse(this.data);
+		}	
+	}
+	
+	private boolean isZero(){
+		for(int i = 0; i < this.data.size();i++){
+			if(this.data.elementAt(i) != 0){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public BigInt multiplyKaratsubaKernel(BigInt a, BigInt b, int m)
 	{
 		if(m == 0){
@@ -641,25 +703,36 @@ public class BigInt
 		}
 		else
 		{	
-			BigInt a0 = a.leftSplit();
-			BigInt a1 = a.rightSplit();
-			BigInt b0 = b.leftSplit();
-			BigInt b1 = b.rightSplit();
+			//Cuando se parte todo debe tener el mismo signo.
+			BigInt a1 = a.leftSplit();
+			BigInt a0 = a.rightSplit();
+			BigInt b1 = b.leftSplit();
+			BigInt b0 = b.rightSplit();
+			
+			//if((a1.data.elementAt(0) < 0 || a1.isNegative) && !a0.isZero() ){ a0.isNegative = true;}
+			//if((b1.data.elementAt(0) < 0 || b1.isNegative) && !b0.isZero() ){ b0.isNegative = true;}
 			
 			BigInt a1_sub_a0 = a1.subtract(a0);
 			BigInt b0_sub_b1 = b0.subtract(b1);
+			
+			a1_sub_a0.fillDigits(m-1);
+			b0_sub_b1.fillDigits(m-1);
 			
 			BigInt t1 = this.multiplyKaratsubaKernel(a1, b1, m-1);
 			BigInt t2 = this.multiplyKaratsubaKernel(a1_sub_a0, b0_sub_b1, m-1);
 			BigInt t3 = this.multiplyKaratsubaKernel(a0, b0, m-1);
 			
+			t1.cleanZeros();
 			BigInt t1_t2_t3 = t1.add(t2);
+			t1_t2_t3.cleanZeros();
 			t1_t2_t3 = t1_t2_t3.add(t3);
 			
 			BigInt result1 = t1.multiplyShift((int)Math.pow(2.0,(double)m));
 			BigInt result2 = t1_t2_t3.multiplyShift((int)Math.pow(2.0,(double)(m-1)));
 			
+			result1.cleanZeros();
 			BigInt result = result1.add(result2);
+			result.cleanZeros();
 			result = result.add(t3);
 			
 			return result;
@@ -671,6 +744,7 @@ public class BigInt
 		return null;
 	}
 	
+
 	@Override
     @SuppressWarnings(value = "unchecked")
     protected BigInt clone(){
