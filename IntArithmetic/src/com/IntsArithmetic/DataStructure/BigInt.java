@@ -685,7 +685,6 @@ public class BigInt
 	private void unifyDigits(BigInt data2){
 		int size1 = this.data.size();
 		int size2 = data2.data.size();
-		int d = 0;
 		
 		if(size1 > size2){
 			Collections.reverse(data2.data);
@@ -760,6 +759,84 @@ public class BigInt
 	public BigInt multiplyModular(BigInt data2)
 	{
 		return null;
+	}
+	
+	public BigInt divisionSchool(BigInt divisor, BigInt quot){
+		BigInt data1 = this.clone();
+		BigInt data2 = divisor.clone();
+		BigInt result;
+		
+		Collections.reverse(data1.data);
+		Collections.reverse(data2.data);
+		
+		if(quot == null){
+			quot = new BigInt("0");
+		}
+		
+		if(this.isGreaterThan(divisor))
+		{
+			result = data1.divisionSchool(data2, quot);
+		}
+		else{
+			result = this.clone();
+		}
+		
+		return result;
+	}
+	
+	BigInt elementAsBigInt(int index){
+		BigInt result = new BigInt();
+		result.isNegative = this.isNegative;
+		result.data.add(this.data.elementAt(index));
+		return result;
+	}
+	
+	boolean isGreaterOrEqualThan(BigInt data){
+		//TODO IMPLEMENT THIS FUNCTION!!!
+		return true;
+	}
+	
+	public BigInt divisionSchoolKernel(BigInt divisor, BigInt quot){
+		int m = this.data.size();
+		int n = divisor.data.size();
+		boolean completed = false;
+		BigInt r = new BigInt("0");
+		BigInt quotAux = new BigInt("0");
+		BigInt aux;
+		int i = m-1;
+		int l = n-2;
+		
+		while(!completed){
+			r.add(this.elementAsBigInt(i).multiplyShift(l));
+			if(i == (m-n+1))
+			{
+				completed = true;
+			}
+			i--; 
+			l--;
+		}
+			
+		for(int j = m-n; j <= 0; j--){
+			if(r.isGreaterOrEqualThan(divisor)){
+				quotAux = r.elementAsBigInt(n).multiplyShift(1).add(r.elementAsBigInt(n-1));
+				quotAux.divisionSchool(divisor.elementAsBigInt(n-1),quotAux);
+				
+				aux = divisor.multiplySchool(quotAux);
+				while(aux.isGreaterThan(r)){
+					aux = new BigInt("1");
+					quotAux.subtract(aux);
+				}
+				aux = divisor.multiplySchool(quotAux);
+				r.subtract(aux);
+				quot.data.add(quotAux.data.elementAt(0));
+			}
+			else{
+				quot.data.add(0);
+			}
+			
+		}	
+		
+		return r;
 	}
 	
 
