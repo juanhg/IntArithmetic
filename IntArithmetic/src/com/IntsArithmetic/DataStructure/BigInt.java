@@ -933,11 +933,13 @@ public class BigInt
 		return cloned;
 	}
 
-	public boolean isNegative() {
+	public boolean isNegative() 
+	{
 		return isNegative;
 	}
 
-	public void setIsNegative(boolean isNegative) {
+	public void setIsNegative(boolean isNegative) 
+	{
 		this.isNegative = isNegative;
 	}
 	

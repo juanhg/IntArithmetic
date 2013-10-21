@@ -119,7 +119,6 @@ public class Main
 			BigInt asd = new BigInt("0");
 			System.out.println(asd.toString());
 			
-			
 		} 
 		catch (Exception e)
 		{
