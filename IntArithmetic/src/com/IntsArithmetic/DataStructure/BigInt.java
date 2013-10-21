@@ -126,20 +126,27 @@ public class BigInt
 				{
 					digits = (int)(Math.log10(data.elementAt(i))+1);
 				}
-				for(int j=digits; j<DIGITS_PER_PART && print0; ++j)
+				for(int j=digits; j<DIGITS_PER_PART /*&& print0*/; ++j)
 				{
 					s += "0";
 				}
 			}
 			
-			if(this.data.elementAt(i) == 0 && !print0){
+			/*
+			if(this.data.elementAt(i) == 0 && !print0)
+			{
 				
 			}
-			else{
+			else
+			{
 				print0 = true;
 				s += data.elementAt(i).toString();
-			//s += " ";
+				//s += " ";
 			}
+			*/
+			
+			s += data.elementAt(i).toString();
+			//s += " ";
 		}
 		return s;
 	}
@@ -761,7 +768,8 @@ public class BigInt
 		return null;
 	}
 	
-	public BigInt divisionSchool(BigInt divisor, BigInt quot){
+	public BigInt divisionSchool(BigInt divisor, BigInt quot)
+	{
 		BigInt data1 = this.clone();
 		BigInt data2 = divisor.clone();
 		BigInt result;
@@ -775,7 +783,7 @@ public class BigInt
 		
 		if(this.isGreaterThan(divisor))
 		{
-			result = data1.divisionSchool(data2, quot);
+			result = data1.divisionSchoolKernel(data2, quot);
 		}
 		else{
 			result = this.clone();
@@ -784,19 +792,86 @@ public class BigInt
 		return result;
 	}
 	
-	BigInt elementAsBigInt(int index){
+	public BigInt elementAsBigInt(int index)
+	{
 		BigInt result = new BigInt();
 		result.isNegative = this.isNegative;
 		result.data.add(this.data.elementAt(index));
 		return result;
 	}
 	
-	boolean isGreaterOrEqualThan(BigInt data){
-		//TODO IMPLEMENT THIS FUNCTION!!!
-		return true;
+	public boolean isGreaterOrEqualThan(BigInt data2)
+	{
+		if(this.isNegative && !data2.isNegative)
+		{
+			return false;
+		}
+		else if(!this.isNegative && data2.isNegative)
+		{
+			return true;
+		}
+		else if(this.isNegative && data2.isNegative)
+		{
+			if(this.data.size() < data2.data.size())
+			{
+				return true;
+			}
+			else if(this.data.size() > data2.data.size())
+			{
+				return false;
+			}
+			else
+			{
+				// Equal size, check digit by digit
+				for(int i=0; i<this.data.size(); ++i)
+				{
+					if(this.data.elementAt(i) < data2.data.elementAt(i))
+					{
+						return true;
+					}
+					else if(this.data.elementAt(i) > data2.data.elementAt(i))
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		else if(!this.isNegative && !data2.isNegative)
+		{	
+			if(this.data.size() < data2.data.size())
+			{
+				return false;
+			}
+			else if(this.data.size() > data2.data.size())
+			{
+				return true;
+			}
+			else
+			{
+				// Equal size, check digit by digit
+				for(int i=0; i<this.data.size(); ++i)
+				{
+					if(this.data.elementAt(i) < data2.data.elementAt(i))
+					{
+						return false;
+					}
+					else if(this.data.elementAt(i) > data2.data.elementAt(i))
+					{
+						return true;
+					}
+				}
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
-	public BigInt divisionSchoolKernel(BigInt divisor, BigInt quot){
+	public BigInt divisionSchoolKernel(BigInt divisor, BigInt quot)
+	{
 		int m = this.data.size();
 		int n = divisor.data.size();
 		boolean completed = false;
@@ -806,8 +881,12 @@ public class BigInt
 		int i = m-1;
 		int l = n-2;
 		
-		while(!completed){
-			r.add(this.elementAsBigInt(i).multiplyShift(l));
+		while(!completed)
+		{
+			r = r.add(this.elementAsBigInt(i).multiplyShift(l));
+			BigInt aux1 = this.elementAsBigInt(i);
+			BigInt aux2 = this.elementAsBigInt(i).multiplyShift(l);
+			BigInt aux3 = r;
 			if(i == (m-n+1))
 			{
 				completed = true;
@@ -815,22 +894,27 @@ public class BigInt
 			i--; 
 			l--;
 		}
-			
-		for(int j = m-n; j <= 0; j--){
-			if(r.isGreaterOrEqualThan(divisor)){
+		
+		for(int j = m-n; j >= 0; j--)
+		{
+			r = r.multiplyShift(1).add(this.elementAsBigInt(j));
+			if(r.isGreaterOrEqualThan(divisor))
+			{
 				quotAux = r.elementAsBigInt(n).multiplyShift(1).add(r.elementAsBigInt(n-1));
-				quotAux.divisionSchool(divisor.elementAsBigInt(n-1),quotAux);
+				quotAux = quotAux.divisionSchool(divisor.elementAsBigInt(n-1),quotAux);
 				
 				aux = divisor.multiplySchool(quotAux);
-				while(aux.isGreaterThan(r)){
+				while(aux.isGreaterThan(r))
+				{
 					aux = new BigInt("1");
-					quotAux.subtract(aux);
+					quotAux = quotAux.subtract(aux);
 				}
 				aux = divisor.multiplySchool(quotAux);
-				r.subtract(aux);
+				r = r.subtract(aux);
 				quot.data.add(quotAux.data.elementAt(0));
 			}
-			else{
+			else
+			{
 				quot.data.add(0);
 			}
 			
@@ -858,4 +942,51 @@ public class BigInt
 	}
 	
 	
+	public static class ResultExtendedEuclides
+	{
+		public BigInt d, u, v;
+		
+		public ResultExtendedEuclides(BigInt d, BigInt u, BigInt v)
+		{
+			this.d = d;
+			this.u = u;
+			this.v = v;
+		}
+	}
+	
+	public ResultExtendedEuclides extendedEuclides(BigInt data2)
+	{
+		BigInt d, u, v;
+		
+		BigInt a = this.clone();
+		BigInt b = data2.clone();
+		
+		BigInt u1 = new BigInt();
+		u1.data.add(1);
+		BigInt v1 = new BigInt();
+		v1.data.add(0);
+		BigInt u2 = new BigInt();
+		u2.data.add(0);
+		BigInt v2 = new BigInt();
+		v2.data.add(1);
+		
+		while( !b.isZero() )
+		{
+			// (q,r) <- Division(a,b,MAX_INTEGER_PER_PART);
+			a = b.clone();
+			// b = r.clone();
+			// u = u1.subtract(q.multiply(u2));
+			// v = v1.subtract(q.multiply(v2));
+			u1 = u2.clone();
+			// u2 = u.clone();
+			v1 = v2.clone();
+			// v2 = v.clone();
+		}
+		
+		return new ResultExtendedEuclides(a, u1, v1);
+	}
+	
+	
 }
+
+

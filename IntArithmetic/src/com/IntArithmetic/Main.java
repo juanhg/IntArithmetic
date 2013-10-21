@@ -63,7 +63,7 @@ public class Main
 			BigInt number2 = new BigInt(strLine2);
 			
 			//number1.setIsNegative(true);
-			number2.setIsNegative(true);
+			//number2.setIsNegative(true);
 			/*
 			System.out.println("The number " + strLine1 + " is represented as " + number1.toString());
 			System.out.println("The number " + strLine2 + " is represented as " + number2.toString());
@@ -71,22 +71,22 @@ public class Main
 			/*
 			System.out.println();
 			BigInt resultAdd = number1.add(number2);
-			System.out.println("   " + strLine1);
-			System.out.println(" + " + strLine2);
+			System.out.println("   " + number1.toString());
+			System.out.println(" + " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultAdd.toString());
 			System.out.println();
 			*/
 			/*
 			System.out.println();
-			BigInt resultSubstract = number1.substract(number2);
-			System.out.println("   " + strLine1);
-			System.out.println(" - " + strLine2);
+			BigInt resultSubstract = number1.subtract(number2);
+			System.out.println("   " + number1.toString());
+			System.out.println(" - " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultSubstract.toString());
 			System.out.println();
 			*/
-			
+			/*
 			System.out.println();
 			BigInt resultMultiply1 = number1.multiplySchool(number2);
 			System.out.println("   " + number1.toString());
@@ -94,8 +94,8 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply1.toString());
 			System.out.println();
-			
-			
+			*/
+			/*
 			System.out.println();
 			BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
 			System.out.println("   " + number1.toString());
@@ -103,6 +103,22 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply2.toString());
 			System.out.println();
+			*/
+			
+			System.out.println();
+			BigInt quotant = new BigInt();
+			BigInt resultDivision = number1.divisionSchool(number2, quotant);
+			System.out.println("   " + number1.toString());
+			System.out.println(" / " + number2.toString());
+			System.out.println("_____________________________________________________________________");
+			System.out.println("Quotant = " + quotant.toString());
+			System.out.println("Rest = " + resultDivision.toString());
+			System.out.println();
+			
+			System.out.println();
+			BigInt asd = new BigInt("0");
+			System.out.println(asd.toString());
+			
 			
 		} 
 		catch (Exception e)
