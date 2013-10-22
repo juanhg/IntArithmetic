@@ -20,24 +20,6 @@ http://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html
 ---------------------------------------------------------------------
 NOTICIAS SEMANALES
 
-Son las 2:59 AM y la división funciona. Podía haberme acostado hace tres horas, pero no.
-He dicho... ¿y si me suicido? Pues nada, el resultado es esto. FUNCIONA.
-Sé que cuando la veas, te vas a echar las manos a la cabeza, pero antes de hacerlo por favor
-piensa en que no te puedes ni imaginar los problemas que han existido.
-1) Para evitar una recursividad imposible he tenido en un caso concreto
-que dividir el cálculo de q en muchos cálculos parciales para evitar que la suma parcial
-fuera algo de dos dígitos (una odisea).
-2) He dividido el caso base (no contemplado en el algoritmo) y el contemplado en el algoritmo. 
-Al principio los tenia juntitos, y créeme. es imposible.
-3) Antes de gritarme o pegarme, mira los datos que he dejado para trabajar. Creo que asumiendo que tarda
-menos de un segundo en hacer la division y la hace bien (TE LO JURO, LA HE PROBADO PARA ESOS DATOS (????)
-merece la pena.
-4) Piensa en Cthulhu. Al profesor le importa una basura la estructura del código. Y esto da resultados.
-Ahora quiéreme.
-5) Vale, no hace falta que me quieras. Testea la función por si acaso. Yo ya he hecho muchas pruebas
-Pero por favor, a ser posible y si tu pudieras, intenta hacer tu el modular. Esto me ha quitado la vida
-y media, y Luis me ha mandado mucho curro.
-6) Te I Love U.
 
 Fallos detectados:
 * Sería interesante conseguir que la resta no modificara los numeros de entrada y 

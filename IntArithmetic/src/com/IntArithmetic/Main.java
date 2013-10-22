@@ -119,6 +119,19 @@ public class Main
 			BigInt asd = new BigInt("0");
 			System.out.println(asd.toString());
 			
+			/*System.out.println();
+			BigInt resultMod = number1.mod(number2);
+			System.out.println("   " + number1.toString());
+			System.out.println(" / " + number2.toString());
+			System.out.println("_____________________________________________________________________");
+			System.out.println("Rest = " + resultMod.toString());
+			System.out.println();
+			
+			System.out.println();
+			System.out.println(asd.toString());*/
+			
+			
+			
 		} 
 		catch (Exception e)
 		{

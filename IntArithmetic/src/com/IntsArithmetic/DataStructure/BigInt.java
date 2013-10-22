@@ -896,7 +896,7 @@ public class BigInt
 		}
 	}
 	
-	public BigInt divisionSchoolBaseCase(BigInt divisor, BigInt quot)
+	private BigInt divisionSchoolBaseCase(BigInt divisor, BigInt quot)
 	{
 		int m = this.data.size();
 		int n = divisor.data.size();
@@ -907,6 +907,10 @@ public class BigInt
 		int sizeB = divisor.data.size();
 		int sizeR = 0;
 		int count = 0;
+		Double partialD = new Double(0);
+		Double partiald = new Double(0);
+		Double partialR = new Double(0);
+		
 		
 		
 		r = this.elementAsBigInt(0);
@@ -933,34 +937,13 @@ public class BigInt
 				}
 				
 				if(quotAux.data.size() != 1){
-					double aux1 = r.data.elementAt((sizeR-1) - n);
-					double aux2 = divisor.data.elementAt((sizeB-1) - (n-1));
-
 					
-					double part1 = aux1/aux2;
-					Integer entera1 = new Integer((int) part1);
-					double decimal1 = (double) part1 - entera1;
-
-					double aux3 = r.data.elementAt((sizeR-1) - (n-1));
-					double aux4 = divisor.data.elementAt((sizeB-1) - (n-1));
-					double part2 =  aux3/aux4;
-					
-					Integer entera2 = new Integer((int) part2);
-					double decimal2 = (double) entera2 - entera2;
-					
-					BigInt bEntera1 = new BigInt();
-					BigInt bEntera2 = new BigInt();
-					bEntera1.data.add(entera1);
-					bEntera2.data.add(entera2);
-					
-					bEntera1.multiplyShift(1);
-					decimal1 = decimal1 * this.MAX_INTEGER_PER_PART;
-					Integer decimalEntero1 = new Integer((int)decimal1);
-					BigInt bDecimalEntero1 = new BigInt();
-					bDecimalEntero1.data.add(decimalEntero1);
-					
-					bEntera1 = bEntera1.add(bDecimalEntero1);
-					quotAux = bEntera1.add(bEntera2);
+					partialD = ((r.elementAsBigInt((sizeR-1) - n).multiplyShift(1)).add(r.elementAsBigInt((sizeR-1) - (n-1)))).toDouble();
+					partiald = divisor.elementAsBigInt((sizeB-1) - (n-1)).toDouble();
+					partialR = partialD / partiald;
+					quotAux.data.clear();
+					quotAux.data.add(partialR.intValue());
+				
 				}
 				else{
 					quotAux.data.setElementAt(quotAux.data.elementAt(0) / divisor.data.elementAt((sizeB-1) - (n-1)),0);
@@ -992,7 +975,7 @@ public class BigInt
 		return r;
 	}
 	
-	public BigInt divisionSchoolKernel(BigInt divisor, BigInt quot)
+	private BigInt divisionSchoolKernel(BigInt divisor, BigInt quot)
 	{
 		int m = this.data.size();
 		int n = divisor.data.size();
@@ -1005,6 +988,10 @@ public class BigInt
 		int sizeA = this.data.size();
 		int sizeB = divisor.data.size();
 		int sizeR = 0;
+		
+		Double partialD = new Double(0);
+		Double partiald = new Double(0);
+		Double partialR = new Double(0);
 		
 		
 		while(!completed)
@@ -1033,34 +1020,13 @@ public class BigInt
 				}
 				
 				if(quotAux.data.size() != 1){
-					double aux1 = r.data.elementAt((sizeR-1) - n);
-					double aux2 = divisor.data.elementAt((sizeB-1) - (n-1));
-
 					
-					double part1 = aux1/aux2;
-					Integer entera1 = new Integer((int) part1);
-					double decimal1 = (double) part1 - entera1;
-
-					double aux3 = r.data.elementAt((sizeR-1) - (n-1));
-					double aux4 = divisor.data.elementAt((sizeB-1) - (n-1));
-					double part2 =  aux3/aux4;
+					partialD = ((r.elementAsBigInt((sizeR-1) - n).multiplyShift(1)).add(r.elementAsBigInt((sizeR-1) - (n-1)))).toDouble();
+					partiald = divisor.elementAsBigInt((sizeB-1) - (n-1)).toDouble();
+					partialR = partialD / partiald;
+					quotAux.data.clear();
+					quotAux.data.add(partialR.intValue());
 					
-					Integer entera2 = new Integer((int) part2);
-					double decimal2 = (double) entera2 - entera2;
-					
-					BigInt bEntera1 = new BigInt();
-					BigInt bEntera2 = new BigInt();
-					bEntera1.data.add(entera1);
-					bEntera2.data.add(entera2);
-					
-					bEntera1.multiplyShift(1);
-					decimal1 = decimal1 * this.MAX_INTEGER_PER_PART;
-					Integer decimalEntero1 = new Integer((int)decimal1);
-					BigInt bDecimalEntero1 = new BigInt();
-					bDecimalEntero1.data.add(decimalEntero1);
-					
-					bEntera1 = bEntera1.add(bDecimalEntero1);
-					quotAux = bEntera1.add(bEntera2);
 				}
 				else{
 					quotAux.data.setElementAt(quotAux.data.elementAt(0) / divisor.data.elementAt((sizeB-1) - (n-1)),0);
@@ -1091,6 +1057,41 @@ public class BigInt
 		}
 		
 		return r;
+	}
+	
+	
+	/**
+	 * Cast a BigInt WITH DATA.SIZE() <= 2 to a Double value.
+	 * @return a The double value of BigInt
+	 */
+	public Double toDouble(){
+		Double acumulator = new Double(0.0);
+		if(this.data.size() <= 2){
+			for(int i = 0; i < this.data.size(); i++){
+				acumulator = acumulator * this.MAX_INTEGER_PER_PART + this.data.elementAt(i);
+			}
+		}
+		return (double) acumulator;
+	}
+	
+	/**
+	 * Obtain the rest of the operation this / divisor. 
+	 * @param divisor 1 Digit divisor
+	 * @return Division's module
+	 */
+	public BigInt mod(BigInt divisor){
+		BigInt result = new BigInt();
+
+		Double doubleR = new Double(0);
+		Double doubleD = new Double(divisor.toDouble());
+		
+		for(int i = 0; i < this.data.size(); i++){
+			doubleR = doubleR * this.MAX_INTEGER_PER_PART + this.data.elementAt(i);
+			doubleR = doubleR % doubleD;
+		}
+		
+		result.data.add(doubleR.intValue());
+		return result;
 	}
 	
 	@Override
