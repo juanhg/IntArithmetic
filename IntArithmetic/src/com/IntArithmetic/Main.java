@@ -134,7 +134,6 @@ public class Main
 			System.out.println("v = " + resultEuclidean.v.toString());
 			System.out.println();
 			
-			
 		} 
 		catch (Exception e)
 		{

@@ -1,31 +1,35 @@
 package com.IntsArithmetic.DataStructure;
 
-public class DivisionResult {
+public class DivisionResult 
+{
 	
 	BigInt quotant;
 	BigInt r;
 	
-	DivisionResult(){
+	DivisionResult()
+	{
 		quotant = new BigInt();
 		r = new BigInt();
 	}
 
-	public BigInt getQuotant() {
+	public BigInt getQuotant() 
+	{
 		return quotant;
 	}
 
-	public void setQuotant(BigInt quotant) {
+	public void setQuotant(BigInt quotant) 
+	{
 		this.quotant = quotant;
 	}
 
-	public BigInt getR() {
+	public BigInt getR() 
+	{
 		return r;
 	}
 
-	public void setR(BigInt r) {
+	public void setR(BigInt r) 
+	{
 		this.r = r;
 	}
 	
-	
-
 }

@@ -665,7 +665,8 @@ public class BigInt
 	 * @param times Zeros to be added
 	 * @return BigInt with "times" mores zeros in data than the original
 	 */
-	public BigInt multiplyShift(int times){
+	public BigInt multiplyShift(int times)
+	{
 		BigInt result = this.clone();
 		
 		for(int i = 0; i < times; i++){
@@ -694,29 +695,37 @@ public class BigInt
 	 * @param data2
 	 */
 	
-	private void unifyDigits(BigInt data2){
+	private void unifyDigits(BigInt data2)
+	{
 		int size1 = this.data.size();
 		int size2 = data2.data.size();
 		
-		if(size1 > size2){
+		if(size1 > size2)
+		{
 			Collections.reverse(data2.data);
-			while(data2.data.size() < size1){
+			while(data2.data.size() < size1)
+			{
 				data2.data.add(0);
 			}
 			Collections.reverse(data2.data);
 		}
-		else{
+		else
+		{
 			Collections.reverse(this.data);
-			while(this.data.size() < size2){
+			while(this.data.size() < size2)
+			{
 				this.data.add(0);
 			}
 			Collections.reverse(this.data);
 		}	
 	}
 	
-	private boolean isZero(){
-		for(int i = 0; i < this.data.size();i++){
-			if(this.data.elementAt(i) != 0){
+	private boolean isZero()
+	{
+		for(int i = 0; i < this.data.size();i++)
+		{
+			if(this.data.elementAt(i) != 0)
+			{
 				return false;
 			}
 		}
