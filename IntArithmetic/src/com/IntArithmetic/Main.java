@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 import com.IntsArithmetic.DataStructure.BigInt;
+import com.IntsArithmetic.DataStructure.BigInt.ResultExtendedEuclidean;
 
 /**
  * @brief Main.
@@ -104,7 +105,7 @@ public class Main
 			System.out.println(resultMultiply2.toString());
 			System.out.println();
 			*/
-			
+			/*
 			System.out.println();
 			BigInt quotant = new BigInt();
 			BigInt resultDivision = number1.divisionSchool(number2, quotant);
@@ -114,22 +115,24 @@ public class Main
 			System.out.println("Quotant = " + quotant.toString());
 			System.out.println("Rest = " + resultDivision.toString());
 			System.out.println();
-			
+			*/
+			/*
 			System.out.println();
-			BigInt asd = new BigInt("0");
-			System.out.println(asd.toString());
-			
-			/*System.out.println();
 			BigInt resultMod = number1.mod(number2);
 			System.out.println("   " + number1.toString());
 			System.out.println(" / " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println("Rest = " + resultMod.toString());
 			System.out.println();
+			*/
 			
 			System.out.println();
-			System.out.println(asd.toString());*/
-			
+			ResultExtendedEuclidean resultEuclidean = number1.extendedEuclidean(number2);
+			System.out.println("d = MCD(" + number1.toString() + "," + number2.toString() + ")");
+			System.out.println("d = " + resultEuclidean.d.toString());
+			System.out.println("u = " + resultEuclidean.u.toString());
+			System.out.println("v = " + resultEuclidean.v.toString());
+			System.out.println();
 			
 			
 		} 

@@ -678,9 +678,14 @@ public class BigInt
 	/**
 	 * Clean left-zeros
 	 */
-	private void cleanZeros(){
-		while (this.data.elementAt(0) == 0 && this.data.size() > 1) {
-			this.data.remove(0);
+	private void cleanZeros()
+	{
+		if(this.data.size() > 0)
+		{	
+			while (this.data.elementAt(0) == 0 && this.data.size() > 1) 
+			{
+				this.data.remove(0);
+			}
 		}
 	}
 	
@@ -1114,11 +1119,11 @@ public class BigInt
 	}
 	
 	
-	public static class ResultExtendedEuclides
+	public static class ResultExtendedEuclidean
 	{
 		public BigInt d, u, v;
 		
-		public ResultExtendedEuclides(BigInt d, BigInt u, BigInt v)
+		public ResultExtendedEuclidean(BigInt d, BigInt u, BigInt v)
 		{
 			this.d = d;
 			this.u = u;
@@ -1126,9 +1131,9 @@ public class BigInt
 		}
 	}
 	
-	public ResultExtendedEuclides extendedEuclides(BigInt data2)
+	public ResultExtendedEuclidean extendedEuclidean(BigInt data2)
 	{
-		BigInt d, u, v;
+		BigInt d, u, v, rest, quotant = null;
 		
 		BigInt a = this.clone();
 		BigInt b = data2.clone();
@@ -1144,18 +1149,19 @@ public class BigInt
 		
 		while( !b.isZero() )
 		{
-			// (q,r) <- Division(a,b,MAX_INTEGER_PER_PART);
+			quotant = new BigInt();
+			rest = a.divisionSchool(b, quotant);
 			a = b.clone();
-			// b = r.clone();
-			// u = u1.subtract(q.multiply(u2));
-			// v = v1.subtract(q.multiply(v2));
+			b = rest.clone();
+			u = u1.subtract(quotant.multiplySchool(u2));
+			v = v1.subtract(quotant.multiplySchool(v2));
 			u1 = u2.clone();
-			// u2 = u.clone();
+			u2 = u.clone();
 			v1 = v2.clone();
-			// v2 = v.clone();
+			v2 = v.clone();
 		}
 		
-		return new ResultExtendedEuclides(a, u1, v1);
+		return new ResultExtendedEuclidean(a, u1, v1);
 	}
 	
 	
