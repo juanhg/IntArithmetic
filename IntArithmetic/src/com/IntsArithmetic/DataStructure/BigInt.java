@@ -792,7 +792,7 @@ public class BigInt
 			quot = new BigInt("0");
 		}
 		
-		if(this.isGreaterThan(divisor))
+		if(this.isGreaterOrEqualThan(divisor))
 		{
 			if((data2.data.size()-2) >= 0){
 				result = data1.divisionSchoolKernel(data2, quot);
