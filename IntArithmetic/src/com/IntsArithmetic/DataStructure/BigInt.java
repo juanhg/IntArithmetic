@@ -92,6 +92,21 @@ public class BigInt
 		isNegative = false;
 	}
 	
+	public BigInt(int digit)
+	{
+		data = new Vector<Integer>(1);
+		if(digit < 0)
+		{
+			isNegative = true;
+			digit = -digit;
+		}
+		else
+		{
+			isNegative = false;
+		}
+		data.add(new Integer(digit));
+	}
+	
 	public BigInt(BigInt data)
 	{
 		// TODO Copy constructor, implement if needed
@@ -777,11 +792,6 @@ public class BigInt
 		}
 	}
 	
-	public BigInt multiplyModular(BigInt data2)
-	{
-		return null;
-	}
-	
 	public BigInt divisionSchool(BigInt divisor, BigInt quot)
 	{
 		BigInt data1 = this.clone();
@@ -1174,6 +1184,43 @@ public class BigInt
 	}
 	
 	
+	public BigInt multiplyModular(BigInt other)
+	{
+		int primesNeeded = this.data.size() + other.data.size() + 1;
+		
+		Vector<Integer> primes = new Vector<Integer>(primesNeeded);
+		// TODO Get the primes...
+		
+		Vector<Integer> a = new Vector<Integer>(primes.size());
+		Vector<Integer> b = new Vector<Integer>(primes.size());
+		BigInt rest;
+		for(Integer prime : primes)
+		{
+			rest = this.mod(new BigInt(prime));
+			// rest will always have one digit.
+			a.add(new Integer( rest.data.firstElement() ));
+			
+			rest = other.mod(new BigInt(prime));
+			// rest will always have one digit.
+			b.add(new Integer( rest.data.firstElement() ));
+		}
+		
+		Vector<Integer> ab = new Vector<Integer>(primes.size());
+		for(int i=0; i<primes.size(); ++i)
+		{
+			long temp = a.elementAt(i) * b.elementAt(i);
+			ab.add(new Integer( (int)(temp % primes.elementAt(i)) ));
+		}
+		
+		// TODO Cálculo de matriz c
+		
+		// TODO Cálculo de vector y
+		
+		// TODO Cálculo del resultado final
+		BigInt result = new BigInt();
+		
+		return result;
+	}
 }
 
 
