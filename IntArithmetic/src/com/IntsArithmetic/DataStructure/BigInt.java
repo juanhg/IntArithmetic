@@ -23,8 +23,13 @@ package com.IntsArithmetic.DataStructure;
  * 
  */
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.Collections;
+
+import com.IntsArithmetic.Util.ExtMath;
 
 /**
  * @brief Big Integer.
@@ -116,7 +121,7 @@ public class BigInt
 	public String toString()
 	{
 		String s = "";
-		boolean print0 = false;
+		// boolean print0 = false;
 		
 		if(isNegative)
 		{
@@ -1152,7 +1157,7 @@ public class BigInt
 	
 	public ResultExtendedEuclidean extendedEuclidean(BigInt data2)
 	{
-		BigInt d, u, v, rest, quotant = null;
+		BigInt u, v, rest, quotant = null;
 		
 		BigInt a = this.clone();
 		BigInt b = data2.clone();
@@ -1189,18 +1194,41 @@ public class BigInt
 		int primesNeeded = this.data.size() + other.data.size() + 1;
 		
 		Vector<Integer> primes = new Vector<Integer>(primesNeeded);
-		// TODO Get the primes...
+		// Get the primes...
+		FileInputStream in;
+		BufferedReader br;
+		
+		try
+		{
+			in = new FileInputStream("primes.txt");
+			br = new BufferedReader(new InputStreamReader(in));
+			
+			for(int i=0; i<primesNeeded; ++i)
+			{
+				String strLine = br.readLine();
+				primes.add(new Integer(Integer.parseInt(strLine)));
+			}
+			
+			br.close();
+			in.close();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error when reading the primes from the file primes.txt");
+			e.printStackTrace();
+			System.exit(1);
+		}
 		
 		Vector<Integer> a = new Vector<Integer>(primes.size());
 		Vector<Integer> b = new Vector<Integer>(primes.size());
 		BigInt rest;
 		for(Integer prime : primes)
 		{
-			rest = this.mod(new BigInt(prime));
+			rest = this.modulo(new BigInt(prime));
 			// rest will always have one digit.
 			a.add(new Integer( rest.data.firstElement() ));
 			
-			rest = other.mod(new BigInt(prime));
+			rest = other.modulo(new BigInt(prime));
 			// rest will always have one digit.
 			b.add(new Integer( rest.data.firstElement() ));
 		}
@@ -1208,18 +1236,83 @@ public class BigInt
 		Vector<Integer> ab = new Vector<Integer>(primes.size());
 		for(int i=0; i<primes.size(); ++i)
 		{
-			long temp = a.elementAt(i) * b.elementAt(i);
-			ab.add(new Integer( (int)(temp % primes.elementAt(i)) ));
+			long temp = (long)a.elementAt(i) * (long)b.elementAt(i);
+			ab.add( ExtMath.mod(new Long(temp), primes.elementAt(i)) );
 		}
 		
-		// TODO Cálculo de matriz c
+		// c matrix calculation
+		Integer[][] c = new Integer[primes.size()][primes.size()];
+		for(int i=0; i<primes.size(); ++i)
+		{
+			for(int j=0; j<primes.size(); ++j)
+			{
+				c[i][j] = 1;
+			}
+		}
 		
-		// TODO Cálculo de vector y
+		for(int i=0; i<primes.size(); ++i)
+		{
+			for(int j=i+1; j<primes.size(); ++j)
+			{
+				ExtMath.ResultExtendedEuclidean r = ExtMath.extendedEuclidean(primes.elementAt(i), primes.elementAt(j));
+				c[i][j] = ExtMath.mod(r.u, primes.elementAt(j));
+			}
+		}
 		
-		// TODO Cálculo del resultado final
-		BigInt result = new BigInt();
+		// y vector calculation
+		Vector<Integer> y = new Vector<Integer>(primes.size());
+		
+		// Calculation of the base case (it does not follow the pattern as closely as the rest)
+		y.add(0, ExtMath.mod(ab.elementAt(0), primes.elementAt(0)));
+		
+		BigInt ytemp;
+		for(int i=1; i<primes.size(); ++i)
+		{
+			ytemp = new BigInt(ab.elementAt(i));
+			for(int j=0; j<i; ++j)
+			{
+				ytemp = ytemp.subtract(new BigInt(y.elementAt(j)));
+				ytemp = ytemp.multiplySchool(new BigInt(c[j][i]));
+			}
+			
+			ytemp = ytemp.modulo(new BigInt(primes.elementAt(i)));
+			
+			y.add(ytemp.data.firstElement());
+		}
+		
+		// final result calculation
+		BigInt result = new BigInt(y.elementAt(0));
+		
+		for(int i=1; i<primes.size(); ++i)
+		{
+			BigInt temp = new BigInt(y.elementAt(i));
+			for(int j=0; j<i; ++j)
+			{
+				temp = temp.multiplySchool(new BigInt(primes.elementAt(j)));
+			}
+			result = result.add(temp);
+		}
 		
 		return result;
+	}
+	
+	public BigInt modulo(BigInt m)
+	{	
+		BigInt quotant = new BigInt();
+		this.divisionSchool(m, quotant);
+		
+		BigInt temp = m.multiplySchool(quotant);
+		
+		temp = this.subtract(temp);
+		
+		if(temp.isNegative)
+		{
+			return m.add(temp);
+		}
+		else
+		{
+			return temp;
+		}
 	}
 }
 

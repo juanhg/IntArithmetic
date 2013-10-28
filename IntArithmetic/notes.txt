@@ -16,6 +16,7 @@ El cambio de base no se cuenta en la medición de tiempo a comparar.
 
 
 http://www.mathsisfun.com/binary-decimal-hexadecimal-converter.html
+http://www.javascripter.net/math/calculators/100digitbigintcalculator.htm
 
 ---------------------------------------------------------------------
 NOTICIAS SEMANALES
@@ -24,4 +25,43 @@ NOTICIAS SEMANALES
 Fallos detectados:
 * Sería interesante conseguir que la resta no modificara los numeros de entrada y 
 karatsuba siguiera funcionando correctamente (HACER SOLO SI DA PROBLEMAS DE EFICIENCIA)
+
+
+______________________________________________________________________
+
+ERRORES:
+
+		Errores en mod
+{
+	209249955227252394981
+	999999893
+	Retorna 1, cuando debería retornar 0
+}
+He implementado mi propia función modulo, pero para que funcione, necesito que la división esté funcionando bien.
+
+
+
+		Errores en divisionSchool
+{
+	Si el dividendo es mayor que el divisor, el resto es correcto, pero el cociente no está definido (debería ser 0)
+}
+
+{
+	Al dividir 2092499552272523949815555555555555555555555555555 / 999999893888888888888888
+	se obtiene 0002092499774310000001598890 como cociente, que es correcto, pero no debería tener los ceros iniciales (El resto también es correcto).
+}
+
+{
+	No hay soporte para divisiones enteras (con números negativos) y son necesarias para el funcionamiento de la función modulo y de la multiplicación modular. Te copio una salida del programa.
+
+	   -999999999999
+	 /  99999999999
+	_____________________________________________________________________
+	Quotant =  
+	Rest = -999999999999
+
+	Debería salir
+	Quotant =  -10
+	Rest = -9
+}
 
