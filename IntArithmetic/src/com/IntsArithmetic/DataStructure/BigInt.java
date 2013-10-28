@@ -797,6 +797,38 @@ public class BigInt
 		}
 	}
 	
+	public BigInt division(BigInt divisor, BigInt quot){
+		BigInt result;
+		boolean negative1 = this.isNegative;
+		boolean negative2 = divisor.isNegative;
+		
+		if((negative1 && !negative2)){
+			this.setIsNegative(false);
+			result = this.divisionSchool(divisor, quot);
+			result.setIsNegative(true);
+			this.setIsNegative(true);
+		}
+		else if((!negative1 && negative2)){
+			divisor.setIsNegative(false);;
+			result = this.divisionSchool(divisor, quot);
+			result.setIsNegative(true);
+			divisor.setIsNegative(true);
+		}
+		else if(negative1 && negative2){
+			divisor.setIsNegative(false);
+			this.setIsNegative(false);
+			result = this.divisionSchool(divisor, quot);
+			divisor.setIsNegative(true);
+			this.setIsNegative(true);
+		}
+		else{
+			result = this.divisionSchool(divisor, quot);
+		}
+		
+		return result;
+	}
+	
+	
 	public BigInt divisionSchool(BigInt divisor, BigInt quot)
 	{
 		BigInt data1 = this.clone();
@@ -817,9 +849,12 @@ public class BigInt
 			}
 		}
 		else{
+			quot.data.add(0);
 			result = this.clone();
 		}
 		
+		quot.cleanZeros();
+		result.cleanZeros();
 		return result;
 	}
 	
@@ -1110,12 +1145,15 @@ public class BigInt
 	 */
 	public BigInt mod(BigInt divisor){
 		BigInt result = new BigInt();
-
+		
 		Double doubleR = new Double(0);
 		Double doubleD = new Double(divisor.toDouble());
+		Double doubleAux;
 		
 		for(int i = 0; i < this.data.size(); i++){
-			doubleR = doubleR * this.MAX_INTEGER_PER_PART + this.data.elementAt(i);
+			doubleR = doubleR * this.MAX_INTEGER_PER_PART;
+			doubleAux = new Double(this.data.elementAt(i));
+			doubleR = doubleR + doubleAux;
 			doubleR = doubleR % doubleD;
 		}
 		

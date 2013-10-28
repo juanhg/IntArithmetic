@@ -111,7 +111,7 @@ public class Main
 			
 			System.out.println();
 			BigInt quotant = new BigInt();
-			BigInt resultDivision = number1.divisionSchool(number2, quotant);
+			BigInt resultDivision = number1.division(number2, quotant);
 			System.out.println("   " + number1.toString());
 			System.out.println(" / " + number2.toString());
 			System.out.println("_____________________________________________________________________");
@@ -119,15 +119,15 @@ public class Main
 			System.out.println("Rest = " + resultDivision.toString());
 			System.out.println();
 			
-			/*
-			System.out.println();
+			
+			/*System.out.println();
 			BigInt resultMod = number1.mod(number2);
 			System.out.println("   " + number1.toString());
 			System.out.println(" % " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMod.toString());
-			System.out.println();
-			*/
+			System.out.println();*/
+			
 			/*
 			System.out.println();
 			BigInt resultModulo = number1.modulo(number2);
