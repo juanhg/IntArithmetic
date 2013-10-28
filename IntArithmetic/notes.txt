@@ -37,22 +37,27 @@ ERRORES:
 	999999893
 	Retorna 1, cuando debería retornar 0
 }
-He implementado mi propia función modulo, pero para que funcione, necesito que la división esté funcionando bien.
+He implementado mi propia función modulo, pero para que funcione, necesito que 
+la división esté funcionando bien.
 
 
 
 		Errores en divisionSchool
 {
-	Si el dividendo es mayor que el divisor, el resto es correcto, pero el cociente no está definido (debería ser 0)
+	Si el dividendo es mayor que el divisor, el resto es correcto, pero el cociente 
+	no está definido (debería ser 0)
 }
 
 {
 	Al dividir 2092499552272523949815555555555555555555555555555 / 999999893888888888888888
-	se obtiene 0002092499774310000001598890 como cociente, que es correcto, pero no debería tener los ceros iniciales (El resto también es correcto).
+	se obtiene 0002092499774310000001598890 como cociente, que es correcto, 
+	pero no debería tener los ceros iniciales (El resto también es correcto).
 }
 
 {
-	No hay soporte para divisiones enteras (con números negativos) y son necesarias para el funcionamiento de la función modulo y de la multiplicación modular. Te copio una salida del programa.
+	No hay soporte para divisiones enteras (con números negativos) y son necesarias 
+	para el funcionamiento de la función modulo y de la multiplicación modular. 
+	Te copio una salida del programa.
 
 	   -999999999999
 	 /  99999999999
@@ -63,5 +68,8 @@ He implementado mi propia función modulo, pero para que funcione, necesito que l
 	Debería salir
 	Quotant =  -10
 	Rest = -9
+	
+	Como ves, además, para dicha división, no sólo el signo es erróneo, sino también 
+	el resultado del cociente y el resto.
 }
 
