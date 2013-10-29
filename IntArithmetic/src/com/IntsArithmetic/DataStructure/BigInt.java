@@ -805,19 +805,21 @@ public class BigInt
 		if((negative1 && !negative2)){
 			this.setIsNegative(false);
 			result = this.divisionSchool(divisor, quot);
-			result.setIsNegative(true);
+			quot.setIsNegative(true);
 			this.setIsNegative(true);
 		}
 		else if((!negative1 && negative2)){
 			divisor.setIsNegative(false);;
 			result = this.divisionSchool(divisor, quot);
 			result.setIsNegative(true);
+			quot.setIsNegative(true);
 			divisor.setIsNegative(true);
 		}
 		else if(negative1 && negative2){
 			divisor.setIsNegative(false);
 			this.setIsNegative(false);
 			result = this.divisionSchool(divisor, quot);
+			result.setIsNegative(true);
 			divisor.setIsNegative(true);
 			this.setIsNegative(true);
 		}
@@ -829,7 +831,7 @@ public class BigInt
 	}
 	
 	
-	public BigInt divisionSchool(BigInt divisor, BigInt quot)
+	private BigInt divisionSchool(BigInt divisor, BigInt quot)
 	{
 		BigInt data1 = this.clone();
 		BigInt data2 = divisor.clone();
