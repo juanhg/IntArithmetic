@@ -806,12 +806,12 @@ public class BigInt
 			this.setIsNegative(false);
 			result = this.divisionSchool(divisor, quot);
 			quot.setIsNegative(true);
+			result.setIsNegative(true);
 			this.setIsNegative(true);
 		}
 		else if((!negative1 && negative2)){
 			divisor.setIsNegative(false);;
 			result = this.divisionSchool(divisor, quot);
-			result.setIsNegative(true);
 			quot.setIsNegative(true);
 			divisor.setIsNegative(true);
 		}
@@ -820,8 +820,9 @@ public class BigInt
 			this.setIsNegative(false);
 			result = this.divisionSchool(divisor, quot);
 			result.setIsNegative(true);
-			divisor.setIsNegative(true);
+			quot.setIsNegative(false);
 			this.setIsNegative(true);
+			divisor.setIsNegative(true);
 		}
 		else{
 			result = this.divisionSchool(divisor, quot);

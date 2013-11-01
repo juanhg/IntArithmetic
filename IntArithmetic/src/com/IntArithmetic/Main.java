@@ -67,7 +67,8 @@ public class Main
 			in.close();
 			
 			//number1.setIsNegative(true);
-			//number2.setIsNegative(true);
+			number2.setIsNegative(true);
+			
 			/*
 			System.out.println("The number " + strLine1 + " is represented as " + number1.toString());
 			System.out.println("The number " + strLine2 + " is represented as " + number2.toString());
