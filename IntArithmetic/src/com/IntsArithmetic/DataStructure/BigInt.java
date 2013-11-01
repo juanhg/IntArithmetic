@@ -1215,7 +1215,7 @@ public class BigInt
 		while( !b.isZero() )
 		{
 			quotant = new BigInt();
-			rest = a.divisionSchool(b, quotant);
+			rest = a.division(b, quotant);
 			a = b.clone();
 			b = rest.clone();
 			u = u1.subtract(quotant.multiplySchool(u2));
@@ -1232,7 +1232,7 @@ public class BigInt
 	
 	public BigInt multiplyModular(BigInt other)
 	{
-		int primesNeeded = this.data.size() + other.data.size() + 1;
+		int primesNeeded = this.data.size() + other.data.size();
 		
 		Vector<Integer> primes = new Vector<Integer>(primesNeeded);
 		// Get the primes...
@@ -1266,11 +1266,11 @@ public class BigInt
 		for(Integer prime : primes)
 		{
 			rest = this.modulo(new BigInt(prime));
-			// rest will always have one digit.
+			// rest will always have one digit because it's the rest of dividing by a number with only one digit.
 			a.add(new Integer( rest.data.firstElement() ));
 			
 			rest = other.modulo(new BigInt(prime));
-			// rest will always have one digit.
+			// rest will always have one digit because it's the rest of dividing by a number with only one digit.
 			b.add(new Integer( rest.data.firstElement() ));
 		}
 		
@@ -1340,19 +1340,15 @@ public class BigInt
 	public BigInt modulo(BigInt m)
 	{	
 		BigInt quotant = new BigInt();
-		this.divisionSchool(m, quotant);
+		BigInt rest = this.division(m, quotant);
 		
-		BigInt temp = m.multiplySchool(quotant);
-		
-		temp = this.subtract(temp);
-		
-		if(temp.isNegative)
+		if(rest.isNegative)
 		{
-			return m.add(temp);
+			return m.add(rest);
 		}
 		else
 		{
-			return temp;
+			return rest;
 		}
 	}
 }

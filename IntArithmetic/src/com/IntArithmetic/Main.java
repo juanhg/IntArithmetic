@@ -67,7 +67,7 @@ public class Main
 			in.close();
 			
 			//number1.setIsNegative(true);
-			number2.setIsNegative(true);
+			//number2.setIsNegative(true);
 			
 			/*
 			System.out.println("The number " + strLine1 + " is represented as " + number1.toString());
@@ -91,7 +91,7 @@ public class Main
 			System.out.println(resultSubstract.toString());
 			System.out.println();
 			*/
-			/*
+			
 			System.out.println();
 			BigInt resultMultiply1 = number1.multiplySchool(number2);
 			System.out.println("   " + number1.toString());
@@ -99,7 +99,7 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply1.toString());
 			System.out.println();
-			*/
+			
 			/*
 			System.out.println();
 			BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
@@ -109,7 +109,7 @@ public class Main
 			System.out.println(resultMultiply2.toString());
 			System.out.println();
 			*/
-			
+			/*
 			System.out.println();
 			BigInt quotant = new BigInt();
 			BigInt resultDivision = number1.division(number2, quotant);
@@ -119,16 +119,16 @@ public class Main
 			System.out.println("Quotant = " + quotant.toString());
 			System.out.println("Rest = " + resultDivision.toString());
 			System.out.println();
-			
-			
-			/*System.out.println();
+			*/
+			/*
+			System.out.println();
 			BigInt resultMod = number1.mod(number2);
 			System.out.println("   " + number1.toString());
 			System.out.println(" % " + number2.toString());
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMod.toString());
-			System.out.println();*/
-			
+			System.out.println();
+			*/
 			/*
 			System.out.println();
 			BigInt resultModulo = number1.modulo(number2);
@@ -144,7 +144,7 @@ public class Main
 			System.out.println("v = " + resultEuclidean.v.toString());
 			System.out.println();
 			*/
-			/*
+			
 			System.out.println();
 			BigInt resultMultiplyModular = number1.multiplyModular(number2);
 			System.out.println("   " + number1.toString());
@@ -152,7 +152,7 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiplyModular.toString());
 			System.out.println();
-			*/
+			
 		} 
 		catch (Exception e)
 		{
