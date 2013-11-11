@@ -100,7 +100,7 @@ public class Main
 			System.out.println(resultMultiply1.toString());
 			System.out.println();
 			
-			/*
+			
 			System.out.println();
 			BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
 			System.out.println("   " + number1.toString());
@@ -108,7 +108,7 @@ public class Main
 			System.out.println("_____________________________________________________________________");
 			System.out.println(resultMultiply2.toString());
 			System.out.println();
-			*/
+			
 			/*
 			System.out.println();
 			BigInt quotant = new BigInt();

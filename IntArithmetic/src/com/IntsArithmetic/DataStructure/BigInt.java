@@ -616,6 +616,7 @@ public class BigInt
 		b.fillDigits(m);
 		
 		result = this.multiplyKaratsubaKernel(a, b, m);
+		result.cleanZeros();
 		return result;
 	}
 	
@@ -752,7 +753,7 @@ public class BigInt
 		return true;
 	}
 	
-	public BigInt multiplyKaratsubaKernel(BigInt a, BigInt b, int m)
+	private BigInt multiplyKaratsubaKernel(BigInt a, BigInt b, int m)
 	{
 		if(m == 0){
 			return a.multiplySchool(b);
@@ -1260,6 +1261,8 @@ public class BigInt
 			System.exit(1);
 		}
 		
+		// READ TIME HERE
+		
 		Vector<Integer> a = new Vector<Integer>(primes.size());
 		Vector<Integer> b = new Vector<Integer>(primes.size());
 		BigInt rest;
@@ -1306,19 +1309,19 @@ public class BigInt
 		// Calculation of the base case (it does not follow the pattern as closely as the rest)
 		y.add(0, ExtMath.mod(ab.elementAt(0), primes.elementAt(0)));
 		
-		BigInt ytemp;
+		long ytemp;
 		for(int i=1; i<primes.size(); ++i)
 		{
-			ytemp = new BigInt(ab.elementAt(i));
+			ytemp = (long)ab.elementAt(i);
 			for(int j=0; j<i; ++j)
 			{
-				ytemp = ytemp.subtract(new BigInt(y.elementAt(j)));
-				ytemp = ytemp.multiplySchool(new BigInt(c[j][i]));
+				ytemp -= (long)y.elementAt(j);
+				ytemp *= (long)c[j][i];
+				ytemp = ExtMath.mod(ytemp, primes.elementAt(i));
 			}
+			ytemp = ExtMath.mod(ytemp, primes.elementAt(i));
 			
-			ytemp = ytemp.modulo(new BigInt(primes.elementAt(i)));
-			
-			y.add(ytemp.data.firstElement());
+			y.add(new Integer((int)ytemp));
 		}
 		
 		// final result calculation
