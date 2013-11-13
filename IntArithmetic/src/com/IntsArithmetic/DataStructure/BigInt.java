@@ -26,10 +26,12 @@ package com.IntsArithmetic.DataStructure;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.Random;
 import java.util.Vector;
 import java.util.Collections;
 
 import com.IntsArithmetic.Util.ExtMath;
+import com.IntsArithmetic.Util.Time;
 
 /**
  * @brief Big Integer.
@@ -45,9 +47,11 @@ public class BigInt
 	private Vector<Integer> data;
 	private boolean isNegative;
 	
+	private Time exTime;
 	
 	public BigInt(String input)
 	{	
+		exTime = new Time();
 		data = new Vector<Integer>(0);
 		isNegative = false;
 
@@ -93,12 +97,14 @@ public class BigInt
 	
 	public BigInt()
 	{
+		exTime = new Time();
 		data = new Vector<Integer>(0);
 		isNegative = false;
 	}
 	
 	public BigInt(int digit)
 	{
+		exTime = new Time();
 		data = new Vector<Integer>(1);
 		if(digit < 0)
 		{
@@ -115,6 +121,44 @@ public class BigInt
 	public BigInt(BigInt data)
 	{
 		// TODO Copy constructor, implement if needed
+	}
+	
+	/**
+	 * Fills data atribute with an random number of n_digits digits 
+	 * @param n_digits Digits in our base
+	 */
+	public void genRandom(int n_digits){
+		int digit = 0;
+		
+		for(int i = 0; i < n_digits; i++){
+			for(int j = 0; j < DIGITS_PER_PART;j++){
+				digit = (digit*10) + randInt(0,9);
+			}
+			this.data.add(digit);
+			digit = 0;
+		}
+	}
+	
+	/**
+	 * Returns a psuedo-random number between min and max, inclusive.
+	 * The difference between min and max can be at most
+	 * <code>Integer.MAX_VALUE - 1</code>.
+	 *
+	 * @param min Minimim value
+	 * @param max Maximim value.  Must be greater than min.
+	 * @return Integer between min and max, inclusive.
+	 * @see java.util.Random#nextInt(int)
+	 */
+	public static int randInt(int min, int max) {
+
+	    // Usually this can be a field rather than a method variable
+	    Random rand = new Random();
+
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
 	}
 	
 	@Override
@@ -476,6 +520,7 @@ public class BigInt
 		//this.cleanZeros();
 		//data2.cleanZeros();
 		
+		this.exTime.start();
 		BigInt result = this.multiplySchoolKernel(data2);
 		if( (this.isNegative && data2.isNegative) || (!this.isNegative && !data2.isNegative) )
 		{
@@ -485,6 +530,7 @@ public class BigInt
 		{
 			result.isNegative = true;
 		}
+		this.exTime.stop();
 		return result;
 	}
 	
@@ -614,8 +660,9 @@ public class BigInt
 		
 		a.fillDigits(m);
 		b.fillDigits(m);
-		
+		this.exTime.start();
 		result = this.multiplyKaratsubaKernel(a, b, m);
+		this.exTime.stop();
 		result.cleanZeros();
 		return result;
 	}
@@ -772,14 +819,18 @@ public class BigInt
 			BigInt a1_sub_a0 = a1.subtract(a0);
 			BigInt b0_sub_b1 = b0.subtract(b1);
 			
+			exTime.pause();
 			a1_sub_a0.fillDigits(m-1);
 			b0_sub_b1.fillDigits(m-1);
 			
 			//SERIA POSIBLE OPTIMIZAR ESTAS CUATRO LLAMADAS, HACIENDO QUE EL SUBTRACT NO MODIFICARA LAS VARIABLES DE ENTRADA
+			
+			
 			a1.fillDigits(m-1);
 			b1.fillDigits(m-1);
 			b0.fillDigits(m-1);
 			a0.fillDigits(m-1);
+			exTime.start();
 			
 			BigInt t1 = this.multiplyKaratsubaKernel(a1, b1, m-1);
 			BigInt t2 = this.multiplyKaratsubaKernel(a1_sub_a0, b0_sub_b1, m-1);
@@ -1261,7 +1312,7 @@ public class BigInt
 			System.exit(1);
 		}
 		
-		// READ TIME HERE
+		this.exTime.start();
 		
 		Vector<Integer> a = new Vector<Integer>(primes.size());
 		Vector<Integer> b = new Vector<Integer>(primes.size());
@@ -1337,9 +1388,18 @@ public class BigInt
 			result = result.add(temp);
 		}
 		
+		this.exTime.stop();
 		return result;
 	}
 	
+	public Time getExTime() {
+		return exTime;
+	}
+
+	public void setExTime(Time exTime) {
+		this.exTime = exTime;
+	}
+
 	public BigInt modulo(BigInt m)
 	{	
 		BigInt quotant = new BigInt();
