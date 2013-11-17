@@ -52,7 +52,7 @@ public class Main
 		
 		try {
 			
-			FileWriter timesFich = new FileWriter("./tiempos.txt");
+			FileWriter timesFich = new FileWriter("./tiemposModular.txt");
             PrintWriter pw = new PrintWriter(timesFich);
 			// System.out.println("Integer.MAX_VALUE = "+Integer.MAX_VALUE);
 			// System.out.println("Long.MAX_VALUE = "+Long.MAX_VALUE);
@@ -68,7 +68,7 @@ public class Main
 			// BigInt number1 = new BigInt(strLine1);
 			// BigInt number2 = new BigInt(strLine2);
 
-			for (int i = 100; i < 30000; i = i + 200) {
+			for (int i = 100; i < 2000; i = i + 200) {
 				BigInt number1 = new BigInt();
 				BigInt number2 = new BigInt();
 
@@ -106,20 +106,20 @@ public class Main
 				 * System.out.println();
 				 */
 
-				System.out.println();
-				BigInt resultMultiply1 = number1.multiplySchool(number2);
+				//System.out.println();
+				//BigInt resultMultiply1 = number1.multiplySchool(number2);
 				/*System.out.println("   " + number1.toString());
 				System.out.println(" * " + number2.toString());
 				System.out
 						.println("_____________________________________________________________________");
 				System.out.println(resultMultiply1.toString());
 				System.out.println();*/
-				long aux1 = number1.getExTime().getTime();
-				System.out.println("School(" + i+ ") Time: " + number1.getExTime().getTime());
-				number1.getExTime().clear();
+				//long aux1 = number1.getExTime().getTime();
+				//System.out.println("School(" + i+ ") Time: " + number1.getExTime().getTime());
+				//number1.getExTime().clear();
 
-				System.out.println();
-				BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
+				//System.out.println();
+				//BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
 				/*System.out.println("   " + number1.toString());
 				System.out.println(" * " + number2.toString());
 				System.out
@@ -128,9 +128,9 @@ public class Main
 				System.out.println("Time: " + number1.getExTime().getTime());
 				System.out.println();*/
 				
-				long aux2 = number1.getExTime().getTime();
-				System.out.println("Karat(" + i+ ") Time: " + number1.getExTime().getTime());
-				number1.getExTime().clear();
+				//long aux2 = number1.getExTime().getTime();
+				//System.out.println("Karat(" + i+ ") Time: " + number1.getExTime().getTime());
+				//number1.getExTime().clear();
 				
 
 				/*
@@ -171,7 +171,7 @@ public class Main
 				 */
 
 				System.out.println();
-				//BigInt resultMultiplyModular = number1.multiplyModular(number2);
+				BigInt resultMultiplyModular = number1.multiplyModular(number2);
 				/*System.out.println("   " + number1.toString());
 				System.out.println(" * " + number2.toString());
 				System.out
@@ -181,8 +181,11 @@ public class Main
 				System.out.println();*/
 				//System.out.println("Modular(" + i+ ") Time: " + number1.getExTime().getTime());
 				//number1.getExTime().clear();
+				long aux3 = number1.getExTime().getTime();
+				System.out.println("Modular(" + i+ ") Time: " + number1.getExTime().getTime());
+				number1.getExTime().clear();
 				
-				pw.println(i+ "\t" + aux1 + "\t" + aux2);
+				pw.println(i+ "\t" + aux3);
 				
 			}
 			pw.close();
