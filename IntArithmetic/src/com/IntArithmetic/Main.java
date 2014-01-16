@@ -55,14 +55,14 @@ public class Main
 		
 		try {
 			
-			FileWriter timesFich = new FileWriter("./IntArithmetic/Resultados.txt",true);
-            PrintWriter pw = new PrintWriter(timesFich);
+			FileWriter timesFich = new FileWriter("./Resultados.txt",true);
+         PrintWriter pw = new PrintWriter(timesFich);
 			// System.out.println("Integer.MAX_VALUE = "+Integer.MAX_VALUE);
 			// System.out.println("Long.MAX_VALUE = "+Long.MAX_VALUE);
 
 			// data.txt should include two lines. Each should be a big decimal
 			// natural number.
-			in = new FileInputStream("IntArithmetic/data.txt");
+			in = new FileInputStream("./data.txt");
 			br = new BufferedReader(new InputStreamReader(in));
 
 			strLine1 = br.readLine();
