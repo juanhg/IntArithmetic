@@ -24,13 +24,14 @@ package com.IntArithmetic;
  */
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 import com.IntsArithmetic.DataStructure.BigInt;
-import com.IntsArithmetic.DataStructure.BigInt.ResultExtendedEuclidean;
 
 /**
  * @brief Main.
@@ -49,35 +50,108 @@ public class Main
 		BufferedReader br;
 		String strLine1;
 		String strLine2;
+		boolean end = false;
+		Scanner scan = new Scanner ( System.in );
 		
 		try {
 			
-			FileWriter timesFich = new FileWriter("./tiemposModular.txt");
+			FileWriter timesFich = new FileWriter("./IntArithmetic/Resultados.txt",true);
             PrintWriter pw = new PrintWriter(timesFich);
 			// System.out.println("Integer.MAX_VALUE = "+Integer.MAX_VALUE);
 			// System.out.println("Long.MAX_VALUE = "+Long.MAX_VALUE);
 
 			// data.txt should include two lines. Each should be a big decimal
 			// natural number.
-			in = new FileInputStream("data.txt");
+			in = new FileInputStream("IntArithmetic/data.txt");
 			br = new BufferedReader(new InputStreamReader(in));
 
 			strLine1 = br.readLine();
 			strLine2 = br.readLine();
 
-			// BigInt number1 = new BigInt(strLine1);
-			// BigInt number2 = new BigInt(strLine2);
+			BigInt number1 = new BigInt(strLine1);
+			BigInt number2 = new BigInt(strLine2);
 
-			for (int i = 100; i < 2000; i = i + 200) {
-				BigInt number1 = new BigInt();
-				BigInt number2 = new BigInt();
-
-				number1.genRandom(i);
-				number2.genRandom(i);
+			
 
 				br.close();
 				in.close();
-
+			
+			while(!end){
+				System.out.println("1 - Suma.");
+				System.out.println("2 - Resta.");
+				System.out.println("3 - Multiplicacion Escolar.");
+				System.out.println("4 - Multiplicacion Karatsuba.");
+				System.out.println("5 - Multiplicacion Modular.");
+				System.out.println("6 - Salir.");
+				
+				System.out.println("Elija una opción:");
+				int selection = scan.nextInt();
+				
+				switch(selection){
+				case 1:
+					  System.out.println(); BigInt resultAdd =
+					  number1.add(number2); System.out.println("   " +
+					  number1.toString()); System.out.println(" + " +
+					  number2.toString()); System.out.println(
+					  "_____________________________________________________________________"
+					  ); System.out.println(resultAdd.toString());
+					  System.out.println();
+					break;
+				case 2:
+					System.out.println(); BigInt resultSubstract =
+					  number1.subtract(number2); System.out.println("   " +
+					  number1.toString()); System.out.println(" - " +
+					  number2.toString()); System.out.println(
+					  "_____________________________________________________________________"
+					  ); System.out.println(resultSubstract.toString());
+					  System.out.println();
+					break;
+				case 3:
+					System.out.println();
+					BigInt resultMultiply1 = number1.multiplySchool(number2);
+					System.out.println("   " + number1.toString());
+					System.out.println(" * " + number2.toString());
+					System.out
+							.println("_____________________________________________________________________");
+					System.out.println(" " + resultMultiply1.toString());;
+					System.out.println();
+					break;
+				case 4:
+					System.out.println();
+					BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
+					System.out.println("   " + number1.toString());
+					System.out.println(" * " + number2.toString());
+					System.out
+							.println("_____________________________________________________________________");
+					String resultado = resultMultiply2.toString();
+					System.out.println(resultado);
+					pw.println(resultMultiply2.toString());
+					break;
+				case 5:
+					System.out.println();
+					BigInt resultMultiplyModular = number1.multiplyModular(number2);
+					System.out.println("   " + number1.toString());
+					System.out.println(" * " + number2.toString());
+					System.out
+							.println("_____________________________________________________________________");
+					System.out.println(resultMultiplyModular.toString());
+					System.out.println("Time: " + number1.getExTime().getTime());
+					System.out.println();
+					break;
+				case 6:
+					end = true;
+					pw.close();
+					System.out.println("Programa Finalizado.");
+					break;
+				}
+			
+				if(selection != 6){
+				System.out.println("Pulsa ENTER para continuar...");
+					scan.nextLine();
+					scan.nextLine();
+				}
+				//Runtime.getRuntime().exec("cls");
+				
 				// number1.setIsNegative(true);
 				// number2.setIsNegative(true);
 
@@ -87,46 +161,13 @@ public class Main
 				 * System.out.println("The number " + strLine2 +
 				 * " is represented as " + number2.toString());
 				 */
-				/*
-				 * System.out.println(); BigInt resultAdd =
-				 * number1.add(number2); System.out.println("   " +
-				 * number1.toString()); System.out.println(" + " +
-				 * number2.toString()); System.out.println(
-				 * "_____________________________________________________________________"
-				 * ); System.out.println(resultAdd.toString());
-				 * System.out.println();
-				 */
-				/*
-				 * System.out.println(); BigInt resultSubstract =
-				 * number1.subtract(number2); System.out.println("   " +
-				 * number1.toString()); System.out.println(" - " +
-				 * number2.toString()); System.out.println(
-				 * "_____________________________________________________________________"
-				 * ); System.out.println(resultSubstract.toString());
-				 * System.out.println();
-				 */
-
-				//System.out.println();
-				//BigInt resultMultiply1 = number1.multiplySchool(number2);
-				/*System.out.println("   " + number1.toString());
-				System.out.println(" * " + number2.toString());
-				System.out
-						.println("_____________________________________________________________________");
-				System.out.println(resultMultiply1.toString());
-				System.out.println();*/
+				
 				//long aux1 = number1.getExTime().getTime();
 				//System.out.println("School(" + i+ ") Time: " + number1.getExTime().getTime());
 				//number1.getExTime().clear();
 
-				//System.out.println();
-				//BigInt resultMultiply2 = number1.multiplyKaratsuba(number2);
-				/*System.out.println("   " + number1.toString());
-				System.out.println(" * " + number2.toString());
-				System.out
-						.println("_____________________________________________________________________");
-				System.out.println(resultMultiply2.toString());
-				System.out.println("Time: " + number1.getExTime().getTime());
-				System.out.println();*/
+			
+				
 				
 				//long aux2 = number1.getExTime().getTime();
 				//System.out.println("Karat(" + i+ ") Time: " + number1.getExTime().getTime());
@@ -144,15 +185,15 @@ public class Main
 				 * System.out.println("Rest = " + resultDivision.toString());
 				 * System.out.println();
 				 */
-				/*
-				 * System.out.println(); BigInt resultMod =
-				 * number1.mod(number2); System.out.println("   " +
-				 * number1.toString()); System.out.println(" % " +
-				 * number2.toString()); System.out.println(
-				 * "_____________________________________________________________________"
-				 * ); System.out.println(resultMod.toString());
-				 * System.out.println();
-				 */
+				
+				  /*System.out.println(); BigInt resultMod =
+				  number1.mod(number2); System.out.println("   " +
+				  number1.toString()); System.out.println(" % " +
+				  number2.toString()); System.out.println(
+				  "_____________________________________________________________________"
+				  ); System.out.println(resultMod.toString());
+				  System.out.println();*/
+				 
 				/*
 				 * System.out.println(); BigInt resultModulo =
 				 * number1.modulo(number2);
@@ -170,25 +211,13 @@ public class Main
 				 * resultEuclidean.v.toString()); System.out.println();
 				 */
 
-				System.out.println();
-				BigInt resultMultiplyModular = number1.multiplyModular(number2);
-				/*System.out.println("   " + number1.toString());
-				System.out.println(" * " + number2.toString());
-				System.out
-						.println("_____________________________________________________________________");
-				System.out.println(resultMultiplyModular.toString());
-				System.out.println("Time: " + number1.getExTime().getTime());
-				System.out.println();*/
+				
 				//System.out.println("Modular(" + i+ ") Time: " + number1.getExTime().getTime());
 				//number1.getExTime().clear();
-				long aux3 = number1.getExTime().getTime();
-				System.out.println("Modular(" + i+ ") Time: " + number1.getExTime().getTime());
-				number1.getExTime().clear();
-				
-				pw.println(i+ "\t" + aux3);
 				
 			}
-			pw.close();
+			
+			
 
 		}
 		catch (Exception e)

@@ -26,6 +26,7 @@ package com.IntsArithmetic.DataStructure;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Vector;
 import java.util.Collections;
@@ -161,7 +162,7 @@ public class BigInt
 	    return randomNum;
 	}
 	
-	@Override
+	
 	public String toString()
 	{
 		String s = "";
@@ -213,6 +214,62 @@ public class BigInt
 			//s += " ";
 		}
 		return s;
+	}
+	
+	public void toFile(PrintWriter pw)
+	{
+		String s = "";
+		// boolean print0 = false;
+		
+		if(isNegative)
+		{
+			s += "-";
+			pw.print("-");
+		}
+		else
+		{
+			s += " ";
+			pw.print(" ");
+		}
+		for(int i=0; i<data.size(); ++i)
+		{
+			// Fill with zeroes until the maximum number of digits of any given number in our base.
+			// The first element is exempt from this rule.
+			if(i != 0)
+			{
+				int digits;
+				if(data.elementAt(i) == 0)
+				{
+					digits = 1;
+				}
+				else
+				{
+					digits = (int)(Math.log10(data.elementAt(i))+1);
+				}
+				for(int j=digits; j<DIGITS_PER_PART /*&& print0*/; ++j)
+				{
+					s += "0";
+					pw.print("0");
+				}
+			}
+			
+			/*
+			if(this.data.elementAt(i) == 0 && !print0)
+			{
+				
+			}
+			else
+			{
+				print0 = true;
+				s += data.elementAt(i).toString();
+				//s += " ";
+			}
+			*/
+			
+			s += data.elementAt(i).toString();
+			pw.print(data.elementAt(i).toString());
+			//s += " ";
+		}
 	}
 	
 	/**
@@ -1293,7 +1350,7 @@ public class BigInt
 		
 		try
 		{
-			in = new FileInputStream("primes.txt");
+			in = new FileInputStream("IntArithmetic/primes.txt");
 			br = new BufferedReader(new InputStreamReader(in));
 			
 			for(int i=0; i<primesNeeded; ++i)
