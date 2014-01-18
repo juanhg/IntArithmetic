@@ -95,7 +95,9 @@ public class Main
 					  number1.toString()); System.out.println(" + " +
 					  number2.toString()); System.out.println(
 					  "_____________________________________________________________________"
-					  ); System.out.println(resultAdd.toString());
+					  ); 
+					  System.out.println(resultAdd.toString());
+					  pw.println(resultAdd.toString());
 					  System.out.println();
 					  System.out.println("Time: " + number1.getExTime().getTime());
 					  System.out.println();
@@ -107,6 +109,7 @@ public class Main
 					  number2.toString()); System.out.println(
 					  "_____________________________________________________________________"
 					  ); System.out.println(resultSubstract.toString());
+					  pw.println(resultSubstract.toString());
 					  System.out.println();
 					  System.out.println("Time: " + number1.getExTime().getTime());
 					  System.out.println();
@@ -118,7 +121,8 @@ public class Main
 					System.out.println(" * " + number2.toString());
 					System.out
 							.println("_____________________________________________________________________");
-					System.out.println(" " + resultMultiply1.toString());;
+					System.out.println(" " + resultMultiply1.toString());
+					pw.println(resultMultiply1.toString());
 					System.out.println();
 					System.out.println("Time: " + number1.getExTime().getTime());
 					System.out.println();
@@ -144,6 +148,7 @@ public class Main
 					System.out
 							.println("_____________________________________________________________________");
 					System.out.println(resultMultiplyModular.toString());
+					pw.println(resultMultiplyModular.toString());
 					System.out.println("Time: " + number1.getExTime().getTime());
 					System.out.println();
 					break;
@@ -157,7 +162,10 @@ public class Main
 							"_____________________________________________________________________"
 							); System.out.println("Quotant = " + quotant.toString());
 							System.out.println("Rest = " + resultDivision.toString());
+							pw.println("Quotant = " + quotant.toString());
+							pw.println("Rest = " + resultDivision.toString());
 							System.out.println();
+					break;
 				case 7:
 					end = true;
 					pw.close();
