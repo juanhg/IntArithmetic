@@ -82,7 +82,8 @@ public class Main
 				System.out.println("3 - Multiplicacion Escolar.");
 				System.out.println("4 - Multiplicacion Karatsuba.");
 				System.out.println("5 - Multiplicacion Modular.");
-				System.out.println("6 - Salir.");
+				System.out.println("6 - Division.");
+				System.out.println("7 - Salir.");
 				
 				System.out.println("Elija una opción:");
 				int selection = scan.nextInt();
@@ -96,6 +97,8 @@ public class Main
 					  "_____________________________________________________________________"
 					  ); System.out.println(resultAdd.toString());
 					  System.out.println();
+					  System.out.println("Time: " + number1.getExTime().getTime());
+					  System.out.println();
 					break;
 				case 2:
 					System.out.println(); BigInt resultSubstract =
@@ -104,6 +107,8 @@ public class Main
 					  number2.toString()); System.out.println(
 					  "_____________________________________________________________________"
 					  ); System.out.println(resultSubstract.toString());
+					  System.out.println();
+					  System.out.println("Time: " + number1.getExTime().getTime());
 					  System.out.println();
 					break;
 				case 3:
@@ -114,6 +119,8 @@ public class Main
 					System.out
 							.println("_____________________________________________________________________");
 					System.out.println(" " + resultMultiply1.toString());;
+					System.out.println();
+					System.out.println("Time: " + number1.getExTime().getTime());
 					System.out.println();
 					break;
 				case 4:
@@ -126,6 +133,8 @@ public class Main
 					String resultado = resultMultiply2.toString();
 					System.out.println(resultado);
 					pw.println(resultMultiply2.toString());
+					System.out.println("Time: " + number1.getExTime().getTime());
+					System.out.println();
 					break;
 				case 5:
 					System.out.println();
@@ -139,13 +148,24 @@ public class Main
 					System.out.println();
 					break;
 				case 6:
+
+					System.out.println(); BigInt quotant = new BigInt(); BigInt
+					resultDivision = number1.division(number2, quotant);
+					System.out.println("   " + number1.toString());
+					System.out.println(" / " + number2.toString());
+					System.out.println(
+							"_____________________________________________________________________"
+							); System.out.println("Quotant = " + quotant.toString());
+							System.out.println("Rest = " + resultDivision.toString());
+							System.out.println();
+				case 7:
 					end = true;
 					pw.close();
 					System.out.println("Programa Finalizado.");
 					break;
 				}
 			
-				if(selection != 6){
+				if(selection != 7){
 				System.out.println("Pulsa ENTER para continuar...");
 					scan.nextLine();
 					scan.nextLine();

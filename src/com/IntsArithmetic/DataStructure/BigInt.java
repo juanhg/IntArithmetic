@@ -1350,7 +1350,7 @@ public class BigInt
 		
 		try
 		{
-			in = new FileInputStream("IntArithmetic/primes.txt");
+			in = new FileInputStream("./primes.txt");
 			br = new BufferedReader(new InputStreamReader(in));
 			
 			for(int i=0; i<primesNeeded; ++i)
